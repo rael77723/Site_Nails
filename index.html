@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- ===== SEO META TAGS ===== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SwagNails – Nail Designer com swag e atitude. Alongamentos, banho de gel, esmaltação e nail art babilônica. Agende seu horário pelo WhatsApp!" />
+  <meta name="keywords" content="nail designer, unhas, alongamento, banho de gel, nail art, esmaltação em gel, stiletto, balerina, almond" />
+  <meta property="og:title" content="SwagNails – Seja Autêntica" />
+  <meta property="og:description" content="Unhas babilônicas com muito carinho e paciência. Agende já!" />
+  <meta property="og:type" content="website" />
+  <title>SwagNails – Seja Autêntica</title>
+  <!-- Favicon: ícone de unha na aba do navegador -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💅</text></svg>" />
+
+  <!-- ===== GOOGLE FONTS ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES – PALETA SwagNails
+    ============================================================ */
+    :root {
+      --bg:        #4A001A;
+      --secondary: #91123E;
+      --cta:       #B01A4E;
+      --light:     #F9E4EC;
+      --white:     #FFFFFF;
+      --gold:      #D4A0A0;
+      --gold-lite: #F5D0D8;
+      --text-muted:#C0708A;
+
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'Cormorant Garamond', serif;
+      --font-ui:      'DM Sans', sans-serif;
+
+      --radius: 2px;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--light);
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cta), #D4205A);
+      color: var(--white);
+      box-shadow: 0 8px 32px rgba(176,26,78,0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(176,26,78,0.6);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: var(--bg);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL ANIMATIONS
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ============================================================
+       NOISE TEXTURE OVERLAY
+    ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.4;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.2rem 0;
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      background: rgba(74, 0, 26, 0.92);
+      backdrop-filter: blur(16px);
+      padding: 0.8rem 0;
+      box-shadow: 0 2px 40px rgba(0,0,0,0.4);
+    }
+
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-lite);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: rgba(74, 0, 26, 0.98);
+      backdrop-filter: blur(20px);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--white);
+      padding: 0.8rem 0;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2rem;
+      color: var(--gold);
+      cursor: pointer;
+      font-family: var(--font-ui);
+    }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Radial gradient background decoration */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(176,26,78,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(145,18,62,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(74,0,26,0.5) 0%, transparent 60%);
+    }
+
+    /* Decorative rings */
+    .hero-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(212,160,160,0.12);
+      pointer-events: none;
+    }
+    .hero-ring:nth-child(1) {
+      width: 600px; height: 600px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ringPulse 6s ease-in-out infinite;
+    }
+    .hero-ring:nth-child(2) {
+      width: 900px; height: 900px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ringPulse 6s ease-in-out 1s infinite;
+    }
+    .hero-ring:nth-child(3) {
+      width: 1200px; height: 1200px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ringPulse 6s ease-in-out 2s infinite;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.04); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 14vw, 10rem);
+      font-weight: 900;
+      line-height: 0.9;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+      text-shadow: 0 0 80px rgba(176,26,78,0.4);
+    }
+
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s forwards;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.9s forwards;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeUp 1s 1.5s forwards;
+    }
+    .scroll-indicator span {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+      animation: scrollLine 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       SOBRE SECTION
+    ============================================================ */
+    #sobre {
+      padding: 8rem 0;
+      position: relative;
+    }
+
+    #sobre .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .sobre-visual {
+      position: relative;
+    }
+
+    .sobre-card {
+      background: linear-gradient(135deg, var(--secondary), rgba(145,18,62,0.6));
+      border: 1px solid rgba(212,160,160,0.15);
+      border-radius: 12px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sobre-card::before {
+      content: '✦';
+      position: absolute;
+      top: -1rem;
+      right: 1.5rem;
+      font-size: 8rem;
+      color: rgba(212,160,160,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .sobre-card-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .sobre-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .sobre-card p {
+      font-size: 1.05rem;
+      color: var(--light);
+      line-height: 1.8;
+    }
+
+    .sobre-text p {
+      font-size: 1.15rem;
+      color: var(--light);
+      margin-bottom: 1.5rem;
+      line-height: 1.9;
+    }
+
+    .sobre-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(176,26,78,0.2);
+      border: 1px solid rgba(176,26,78,0.4);
+      border-radius: 50px;
+      padding: 0.4rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-lite);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ============================================================
+       FORMATOS SECTION
+    ============================================================ */
+    #formatos {
+      padding: 5rem 0;
+    }
+
+    /* ── Formatos: imagem centralizada ── */
+    .formatos-img-wrap {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .formatos-img-frame {
+      position: relative;
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+      /* Vinheta suave nas bordas para fundir com o fundo */
+      box-shadow:
+        0 0 60px 20px rgba(74,0,26,0.7),
+        0 30px 80px rgba(0,0,0,0.5);
+      max-width: 760px;
+      width: 45%;
+    }
+
+    /* Gradiente de fade nas 4 bordas — faz a imagem "desaparecer" no fundo */
+    .formatos-img-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background:
+        linear-gradient(to right,  rgba(74,0,26,0.55) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.55) 100%),
+        linear-gradient(to bottom, rgba(74,0,26,0.45) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.45) 100%);
+      pointer-events: none;
+    }
+
+    .formatos-img-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      /* Leve saturação para harmonizar com a paleta */
+      filter: saturate(0.92) brightness(0.97);
+    }
+
+    /* ============================================================
+       SERVIÇOS / TABELA DE PREÇOS
+    ============================================================ */
+    #servicos {
+      padding: 8rem 0;
+      position: relative;
+    }
+
+    #servicos::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent);
+    }
+
+    .servicos-intro {
+      max-width: 600px;
+      margin-bottom: 4rem;
+    }
+
+    .preco-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .preco-card {
+      background: linear-gradient(145deg, rgba(145,18,62,0.25), rgba(74,0,26,0.4));
+      border: 1px solid rgba(212,160,160,0.12);
+      border-radius: 12px;
+      padding: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preco-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(176,26,78,0.08), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .preco-card:hover {
+      border-color: rgba(212,160,160,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .preco-card:hover::after { opacity: 1; }
+
+    .preco-card-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--cta), #D4205A);
+      color: var(--white);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+    }
+
+    .preco-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .preco-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(212,160,160,0.08);
+    }
+
+    .preco-item:last-child { border-bottom: none; }
+
+    .preco-item-nome {
+      font-size: 0.98rem;
+      color: var(--light);
+    }
+
+    .preco-item-valor {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+
+    /* Observações */
+    .obs-box {
+      background: rgba(176,26,78,0.12);
+      border: 1px solid rgba(176,26,78,0.3);
+      border-left: 4px solid var(--cta);
+      border-radius: 0 8px 8px 0;
+      padding: 1.5rem 2rem;
+      margin-top: 2rem;
+    }
+
+    .obs-box p {
+      font-size: 0.95rem;
+      color: var(--gold-lite);
+      line-height: 1.8;
+    }
+
+    .obs-box strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Adicional card */
+    .adicional-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(176,26,78,0.2), rgba(145,18,62,0.3));
+      border: 1px solid rgba(212,160,160,0.2);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .adicional-card h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .adicional-card p {
+      font-size: 1.05rem;
+      color: var(--light);
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .adicional-price {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--white);
+      display: block;
+    }
+
+    /* ============================================================
+       AGENDAMENTO SECTION
+    ============================================================ */
+    #agendamento {
+      padding: 8rem 0;
+      background: linear-gradient(180deg, rgba(145,18,62,0.15), transparent);
+    }
+
+    #agendamento::before {
+      content: '';
+      display: block;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent);
+      margin-bottom: 8rem;
+      margin-top: -8rem;
+    }
+
+    .agendamento-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .agenda-card {
+      background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5));
+      border: 1px solid rgba(212,160,160,0.12);
+      border-radius: 12px;
+      padding: 2.5rem;
+      transition: var(--transition);
+    }
+
+    .agenda-card:hover {
+      border-color: rgba(212,160,160,0.25);
+      transform: translateY(-4px);
+    }
+
+    .agenda-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .agenda-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .agenda-card p,
+    .agenda-card li {
+      font-size: 0.98rem;
+      color: var(--light);
+      line-height: 1.8;
+    }
+
+    .agenda-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .agenda-card ul li {
+      padding: 0.3rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .agenda-card ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: var(--cta);
+      font-size: 0.5rem;
+      top: 0.55rem;
+    }
+
+    .alerta-box {
+      background: rgba(176,26,78,0.15);
+      border: 1px solid rgba(176,26,78,0.35);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      color: var(--gold-lite);
+    }
+
+    .pagamento-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .chip {
+      background: rgba(145,18,62,0.35);
+      border: 1px solid rgba(212,160,160,0.2);
+      border-radius: 50px;
+      padding: 0.35rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--gold-lite);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       CONTATO / CTA SECTION
+    ============================================================ */
+    #contato {
+      padding: 8rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contato::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(176,26,78,0.2), transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    #contato .container { position: relative; z-index: 1; }
+
+    .contato-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .contato-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .contato-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 3rem;
+    }
+
+    .whatsapp-big-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: var(--white);
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 1.2rem 2.8rem;
+      border-radius: 50px;
+      transition: var(--transition);
+      box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+    }
+
+    .whatsapp-big-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 16px 48px rgba(37,211,102,0.5);
+    }
+
+    .whatsapp-icon {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: rgba(0,0,0,0.3);
+      border-top: 1px solid rgba(212,160,160,0.08);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-col ul a {
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .footer-col ul a:hover { color: var(--gold-lite); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(212,160,160,0.08);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-heart { color: var(--cta); }
+
+    /* ============================================================
+       WHATSAPP FLOATING BUTTON
+    ============================================================ */
+    .wpp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: wppPulse 2.5s ease-in-out infinite;
+    }
+
+    .wpp-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 12px 36px rgba(37,211,102,0.6);
+      animation: none;
+    }
+
+    .wpp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    /* Pulsing ring */
+    .wpp-float::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(37,211,102,0.4);
+      animation: wppRing 2.5s ease-in-out infinite;
+    }
+
+    @keyframes wppPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes wppRing {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* ============================================================
+       DIVISOR ORNAMENTAL
+    ============================================================ */
+    .ornament {
+      text-align: center;
+      color: rgba(212,160,160,0.25);
+      font-size: 1.2rem;
+      letter-spacing: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      #sobre .container,
+      .preco-grid,
+      .agendamento-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .formatos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .adicional-card { grid-column: 1 / -1; }
+
+      .nav-links { display: none; }
+
+      .hamburger { display: flex; }
+    }
+
+    @media (max-width: 600px) {
+      .formatos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-cta-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn { width: 100%; justify-content: center; }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+
+      .wpp-float {
+        width: 54px;
+        height: 54px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#hero" class="nav-logo">Swag<span>Nails</span></a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#agendamento">Agendamento</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" aria-label="Menu" role="button">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <span class="mobile-close" id="mobileClose">✕</span>
+    <a href="#sobre"       onclick="closeMobileMenu()">Sobre</a>
+    <a href="#servicos"    onclick="closeMobileMenu()">Serviços</a>
+    <a href="#agendamento" onclick="closeMobileMenu()">Agendamento</a>
+    <a href="#contato"     onclick="closeMobileMenu()">Contato</a>
+  </div>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section id="hero">
+    <!-- Decorative rings -->
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Nail Designer ✦</p>
+      <h1 class="hero-title">SwagNails</h1>
+      <p class="hero-tagline">Seja Autêntica.</p>
+      <div class="hero-cta-group">
+        <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
+          Agendar Agora
+        </a>
+        <a href="#servicos" class="btn btn-outline">Ver Serviços</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Deslize</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOBRE SECTION
+  ============================================================ -->
+  <section id="sobre">
+    <div class="container">
+      <div class="sobre-visual reveal-left">
+        <div class="sobre-card">
+          <span class="sobre-card-emoji">✨</span>
+          <h3>Unhas que falam por você</h3>
+          <p>Cada detalhe é pensado com carinho. Do formato à nail art babilônica, o resultado vai te deixar babando.</p>
+        </div>
+      </div>
+      <div class="sobre-text reveal">
+        <p class="section-label">Quem sou</p>
+        <h2 class="section-title">Feito com carinho,<br /><em>entregue com swag</em></h2>
+        <span class="sobre-badge">✦ Nail Designer Iniciante com muito amor ✦</span>
+        <p>Oi, diva! Sou uma nail designer iniciante que está construindo sua trajetória com muita dedicação, paciência e amor pelo que faz.</p>
+        <p>No momento, ofereço os serviços que mais amo e que consigo entregar com excelência. Cada unha é tratada como uma obra de arte, porque você merece nada menos que isso.</p>
+        <p>Obrigada por confiar no meu trabalho! 🤍</p>
+        <a href="#contato" class="btn btn-primary" style="margin-top: 1rem;">
+          Entrar em Contato
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FORMATOS SECTION
+  ============================================================ -->
+  <section id="formatos">
+    <div class="container">
+      <p class="section-label reveal">Formatos disponíveis</p>
+      <h2 class="section-title reveal">Escolha o formato<br /><em>da sua personalidade</em></h2>
+      <!-- Imagem com os 4 formatos de unha (Unhas1.png) -->
+      <div class="formatos-img-wrap reveal">
+        <div class="formatos-img-frame">
+          <img src="Unhas1.png" alt="Formatos de unhas disponíveis: Quadrada, Stiletto, Balerina e Almond" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVIÇOS / PREÇOS SECTION
+  ============================================================ -->
+  <section id="servicos">
+    <div class="container">
+      <div class="servicos-intro">
+        <p class="section-label reveal">Tabela de serviços</p>
+        <h2 class="section-title reveal">Serviços &amp;<br /><em>Preços</em></h2>
+      </div>
+
+      <div class="preco-grid">
+
+        <!-- Card: Alongamento & Gel -->
+        <div class="preco-card reveal">
+          <span class="preco-card-badge">Principal</span>
+          <h3>Alongamento &amp; Gel</h3>
+          <div class="preco-item">
+            <span class="preco-item-nome">Alongamento Molde F1</span>
+            <span class="preco-item-valor">R$ 90,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">↳ Manutenção</span>
+            <span class="preco-item-valor">R$ 75,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">Banho de Gel</span>
+            <span class="preco-item-valor">R$ 60,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">↳ Manutenção Banho de Gel</span>
+            <span class="preco-item-valor">R$ 45,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">Esmaltação em Gel</span>
+            <span class="preco-item-valor">R$ 45,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">Remoção</span>
+            <span class="preco-item-valor">R$ 30,00</span>
+          </div>
+        </div>
+
+        <!-- Card: Combos -->
+        <div class="preco-card reveal">
+          <span class="preco-card-badge">Combos</span>
+          <h3>Combos Especiais</h3>
+          <div class="preco-item">
+            <span class="preco-item-nome">Alongamento F1 + Esmaltação em Gel</span>
+            <span class="preco-item-valor">R$ 100,00</span>
+          </div>
+          <div class="preco-item">
+            <span class="preco-item-nome">Banho de Gel + Esmaltação em Gel</span>
+            <span class="preco-item-valor">R$ 70,00</span>
+          </div>
+
+          <div class="obs-box" style="margin-top: 1.5rem;">
+            <p>⚠️ <strong>Esmaltação Básica em Gel</strong> é um adicional de <strong>+R$ 10,00</strong> no procedimento escolhido.</p>
+          </div>
+
+          <div class="obs-box" style="margin-top: 1rem;">
+            <p>💔 <strong>Unha danificada</strong> (mordida ou com infiltração) tem correção adicional de <strong>+R$ 15,00 por unha</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Card: Adicional Nail Art -->
+        <div class="adicional-card reveal">
+          <h3>✨ Nail Babilônica ✨</h3>
+          <p>Se você é uma diva com puro swag, tenho certeza que você quer unhas cheias de cacarecos! Charms e Nail Art em <strong>todas as 10 unhas</strong>:</p>
+          <span class="adicional-price">+ R$ 20,00</span>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem;">Este adicional inclui charms e nail art em todas as 10 unhas.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AGENDAMENTO SECTION
+  ============================================================ -->
+  <section id="agendamento">
+    <div class="container">
+      <p class="section-label reveal">Como funciona</p>
+      <h2 class="section-title reveal">Agendamento &amp;<br /><em>Pagamento</em></h2>
+      <div class="ornament reveal">✦ · · · ✦</div>
+
+      <div class="agendamento-grid">
+
+        <!-- Agendamento -->
+        <div class="agenda-card reveal">
+          <span class="agenda-icon">📅</span>
+          <h3>Como Agendar</h3>
+          <p>Para garantir seu horário, é necessário realizar o <strong>agendamento prévio</strong>. Os atendimentos são realizados <strong>apenas com horário marcado</strong>.</p>
+          <div class="obs-box" style="margin-top: 1.5rem;">
+            <p>💳 <strong>Sinal de 50%</strong> do valor do serviço para confirmação. O valor é abatido no total final.</p>
+            <p style="margin-top: 0.5rem;">⚠️ <strong>O sinal não é reembolsável</strong> em caso de desistência.</p>
+          </div>
+        </div>
+
+        <!-- Cancelamento -->
+        <div class="agenda-card reveal">
+          <span class="agenda-icon">⏰</span>
+          <h3>Cancelamento &amp; Atraso</h3>
+          <ul>
+            <li>Cancelamentos ou reagendamentos com mínimo de <strong>24h de antecedência</strong>.</li>
+            <li>Fora do prazo ou não comparecimento: <strong>sinal não devolvido</strong> e novo sinal necessário.</li>
+            <li>Atraso superior a <strong>15 minutos</strong>: atendimento cancelado e necessidade de reagendamento.</li>
+          </ul>
+        </div>
+
+        <!-- Pagamento -->
+        <div class="agenda-card reveal" style="grid-column: 1 / -1;">
+          <span class="agenda-icon">💳</span>
+          <h3>Formas de Pagamento</h3>
+          <p style="margin-bottom: 1rem;">Aceitamos as seguintes formas de pagamento:</p>
+          <div class="pagamento-chips">
+            <span class="chip">📱 PIX</span>
+            <span class="chip">💵 Dinheiro</span>
+            <span class="chip">💳 Cartão de Crédito (Aproximação)*</span>
+            <span class="chip">💳 Cartão de Débito (Aproximação)*</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">*Sujeito a taxas.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTATO / CTA SECTION
+  ============================================================ -->
+  <section id="contato">
+    <div class="container">
+      <p class="section-label reveal">Pronta pra arrasar?</p>
+      <h2 class="contato-title reveal">Agende sua<br /><em>sessão agora</em></h2>
+      <p class="contato-sub reveal">Manda uma mensagem e garante seu horário. A diva que você é merece unhas à altura!</p>
+      <div class="reveal">
+        <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="whatsapp-big-btn">
+          <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">Swag<span>Nails</span></div>
+          <p class="footer-tagline">Seja Autêntica. ✨</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#agendamento">Agendamento</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul>
+            <li><a href="#servicos">Alongamento</a></li>
+            <li><a href="#servicos">Banho de Gel</a></li>
+            <li><a href="#servicos">Nail Art</a></li>
+            <li><a href="#servicos">Esmaltação em Gel</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 SwagNails - Feito com <span class="footer-heart">♥</span> para divas autênticas.</p>
+        <p>
+          <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color=''">
+            WhatsApp
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       WHATSAPP FLOATING BUTTON
+  ============================================================ -->
+  <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio"
+     target="_blank"
+     rel="noopener"
+     class="wpp-float"
+     aria-label="Fale pelo WhatsApp">
+    <svg viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/>
+    </svg>
+  </a>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ----- Navbar scroll effect ----- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ----- Mobile menu ----- */
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
+
+    hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+    }
+
+    /* ----- Scroll reveal (Intersection Observer) ----- */
+    const reveals = document.querySelectorAll('.reveal, .reveal-left');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger delay for grid children
+          const delay = entry.target.closest('.formatos-grid, .preco-grid, .agendamento-grid')
+            ? Array.from(entry.target.parentElement.children).indexOf(entry.target) * 100
+            : 0;
+          setTimeout(() => entry.target.classList.add('visible'), delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
