@@ -389,6 +389,7 @@
       font-family: var(--font-ui);
       font-size: 0.65rem;
       letter-spacing: 0.25em;
+      padding-left: 0.25em; /* compensate letter-spacing optical shift */
       text-transform: uppercase;
       color: var(--text-muted);
     }
@@ -514,7 +515,7 @@
       box-shadow:
         0 0 60px 20px rgba(74,0,26,0.7),
         0 30px 80px rgba(0,0,0,0.5);
-      max-width: 760px;
+      max-width: 660px;
       width: 45%;
     }
 
@@ -1069,7 +1070,6 @@
       <a href="#hero" class="nav-logo">Swag<span>Nails</span></a>
       <ul class="nav-links">
         <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#servicos">Serviços</a></li>
         <li><a href="#agendamento">Agendamento</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
@@ -1083,7 +1083,6 @@
   <div class="mobile-menu" id="mobileMenu">
     <span class="mobile-close" id="mobileClose">✕</span>
     <a href="#sobre"       onclick="closeMobileMenu()">Sobre</a>
-    <a href="#servicos"    onclick="closeMobileMenu()">Serviços</a>
     <a href="#agendamento" onclick="closeMobileMenu()">Agendamento</a>
     <a href="#contato"     onclick="closeMobileMenu()">Contato</a>
   </div>
@@ -1125,7 +1124,7 @@
         <div class="sobre-card">
           <span class="sobre-card-emoji">✨</span>
           <h3>Unhas que falam por você</h3>
-          <p>Cada detalhe é pensado com carinho. Do formato à nail art babilônica, o resultado vai te deixar babando.</p>
+          <p>Cada detalhe é pensado com carinho. Do formato a nail art babilônica, o resultado vai te deixar babando.</p>
         </div>
       </div>
       <div class="sobre-text reveal">
@@ -1142,97 +1141,9 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       FORMATOS SECTION
-  ============================================================ -->
-  <section id="formatos">
-    <div class="container">
-      <p class="section-label reveal">Formatos disponíveis</p>
-      <h2 class="section-title reveal">Escolha o formato<br /><em>da sua personalidade</em></h2>
-      <!-- Imagem com os 4 formatos de unha (Unhas1.png) -->
-      <div class="formatos-img-wrap reveal">
-        <div class="formatos-img-frame">
-          <img src="Unhas1.png" alt="Formatos de unhas disponíveis: Quadrada, Stiletto, Balerina e Almond" />
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ============================================================
-       SERVIÇOS / PREÇOS SECTION
-  ============================================================ -->
-  <section id="servicos">
-    <div class="container">
-      <div class="servicos-intro">
-        <p class="section-label reveal">Tabela de serviços</p>
-        <h2 class="section-title reveal">Serviços &amp;<br /><em>Preços</em></h2>
-      </div>
 
-      <div class="preco-grid">
 
-        <!-- Card: Alongamento & Gel -->
-        <div class="preco-card reveal">
-          <span class="preco-card-badge">Principal</span>
-          <h3>Alongamento &amp; Gel</h3>
-          <div class="preco-item">
-            <span class="preco-item-nome">Alongamento Molde F1</span>
-            <span class="preco-item-valor">R$ 90,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">↳ Manutenção</span>
-            <span class="preco-item-valor">R$ 75,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">Banho de Gel</span>
-            <span class="preco-item-valor">R$ 60,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">↳ Manutenção Banho de Gel</span>
-            <span class="preco-item-valor">R$ 45,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">Esmaltação em Gel</span>
-            <span class="preco-item-valor">R$ 45,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">Remoção</span>
-            <span class="preco-item-valor">R$ 30,00</span>
-          </div>
-        </div>
-
-        <!-- Card: Combos -->
-        <div class="preco-card reveal">
-          <span class="preco-card-badge">Combos</span>
-          <h3>Combos Especiais</h3>
-          <div class="preco-item">
-            <span class="preco-item-nome">Alongamento F1 + Esmaltação em Gel</span>
-            <span class="preco-item-valor">R$ 100,00</span>
-          </div>
-          <div class="preco-item">
-            <span class="preco-item-nome">Banho de Gel + Esmaltação em Gel</span>
-            <span class="preco-item-valor">R$ 70,00</span>
-          </div>
-
-          <div class="obs-box" style="margin-top: 1.5rem;">
-            <p>⚠️ <strong>Esmaltação Básica em Gel</strong> é um adicional de <strong>+R$ 10,00</strong> no procedimento escolhido.</p>
-          </div>
-
-          <div class="obs-box" style="margin-top: 1rem;">
-            <p>💔 <strong>Unha danificada</strong> (mordida ou com infiltração) tem correção adicional de <strong>+R$ 15,00 por unha</strong>.</p>
-          </div>
-        </div>
-
-        <!-- Card: Adicional Nail Art -->
-        <div class="adicional-card reveal">
-          <h3>✨ Nail Babilônica ✨</h3>
-          <p>Se você é uma diva com puro swag, tenho certeza que você quer unhas cheias de cacarecos! Charms e Nail Art em <strong>todas as 10 unhas</strong>:</p>
-          <span class="adicional-price">+ R$ 20,00</span>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem;">Este adicional inclui charms e nail art em todas as 10 unhas.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- ============================================================
        AGENDAMENTO SECTION
@@ -1271,7 +1182,6 @@
         <div class="agenda-card reveal" style="grid-column: 1 / -1;">
           <span class="agenda-icon">💳</span>
           <h3>Formas de Pagamento</h3>
-          <p style="margin-bottom: 1rem;">Aceitamos as seguintes formas de pagamento:</p>
           <div class="pagamento-chips">
             <span class="chip">📱 PIX</span>
             <span class="chip">💵 Dinheiro</span>
@@ -1316,7 +1226,6 @@
           <h4>Navegação</h4>
           <ul>
             <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#servicos">Serviços</a></li>
             <li><a href="#agendamento">Agendamento</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
@@ -1324,10 +1233,11 @@
         <div class="footer-col">
           <h4>Serviços</h4>
           <ul>
-            <li><a href="#servicos">Alongamento</a></li>
-            <li><a href="#servicos">Banho de Gel</a></li>
-            <li><a href="#servicos">Nail Art</a></li>
-            <li><a href="#servicos">Esmaltação em Gel</a></li>
+            <li><a href="#agendamento">Alongamento no molde F1</a></li>
+            <li><a href="#agendamento">Banho de Gel</a></li>
+            <li><a href="#agendamento">Blindagem</a></li>
+            <li><a href="#agendamento">Esmaltação em Gel</a></li>
+            <li><a href="#agendamento">Nail Art</a></li>
           </ul>
         </div>
       </div>
