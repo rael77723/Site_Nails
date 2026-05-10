@@ -376,7 +376,7 @@
     .scroll-indicator {
       position: absolute;
       bottom: 2rem;
-      left: 50%;
+      left: 47,9%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
@@ -389,9 +389,9 @@
       font-family: var(--font-ui);
       font-size: 0.65rem;
       letter-spacing: 0.25em;
-      padding-left: 0.25em; /* compensate letter-spacing optical shift */
       text-transform: uppercase;
       color: var(--text-muted);
+      margin-right: -0.25em; /* neutralise trailing letter-spacing so the text centres truly */
     }
     .scroll-line {
       width: 1px;
@@ -1067,11 +1067,11 @@
   ============================================================ -->
   <nav class="navbar" id="navbar">
     <div class="container">
-      <a href="#hero" class="nav-logo">Swag<span>Nails</span></a>
+      <a href="javascript:void(0)" class="nav-logo" data-target="hero">Swag<span>Nails</span></a>
       <ul class="nav-links">
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#agendamento">Agendamento</a></li>
-        <li><a href="#contato">Contato</a></li>
+        <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
+        <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
+        <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
       </ul>
       <div class="hamburger" id="hamburger" aria-label="Menu" role="button">
         <span></span><span></span><span></span>
@@ -1082,9 +1082,9 @@
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
     <span class="mobile-close" id="mobileClose">✕</span>
-    <a href="#sobre"       onclick="closeMobileMenu()">Sobre</a>
-    <a href="#agendamento" onclick="closeMobileMenu()">Agendamento</a>
-    <a href="#contato"     onclick="closeMobileMenu()">Contato</a>
+    <a href="javascript:void(0)" data-target="sobre"       onclick="closeMobileMenu()">Sobre</a>
+    <a href="javascript:void(0)" data-target="agendamento" onclick="closeMobileMenu()">Agendamento</a>
+    <a href="javascript:void(0)" data-target="contato"     onclick="closeMobileMenu()">Contato</a>
   </div>
 
   <!-- ============================================================
@@ -1105,7 +1105,7 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
           Agendar Agora
         </a>
-        <a href="#servicos" class="btn btn-outline">Ver Serviços</a>
+
       </div>
     </div>
 
@@ -1134,7 +1134,7 @@
         <p>Oi, diva! Sou uma nail designer iniciante que está construindo sua trajetória com muita dedicação, paciência e amor pelo que faz.</p>
         <p>No momento, ofereço os serviços que mais amo e que consigo entregar com excelência. Cada unha é tratada como uma obra de arte, porque você merece nada menos que isso.</p>
         <p>Obrigada por confiar no meu trabalho! 🤍</p>
-        <a href="#contato" class="btn btn-primary" style="margin-top: 1rem;">
+        <a href="javascript:void(0)" data-target="contato" class="btn btn-primary" style="margin-top: 1rem;">
           Entrar em Contato
         </a>
       </div>
@@ -1225,19 +1225,19 @@
         <div class="footer-col">
           <h4>Navegação</h4>
           <ul>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#agendamento">Agendamento</a></li>
-            <li><a href="#contato">Contato</a></li>
+            <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
+            <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Serviços</h4>
           <ul>
-            <li><a href="#agendamento">Alongamento no molde F1</a></li>
-            <li><a href="#agendamento">Banho de Gel</a></li>
-            <li><a href="#agendamento">Blindagem</a></li>
-            <li><a href="#agendamento">Esmaltação em Gel</a></li>
-            <li><a href="#agendamento">Nail Art</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Alongamento no molde F1</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Banho de Gel</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Blindagem</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Esmaltação em Gel</a></li>
+            <li><a href="javascript:void(0)" data-target="agendamento">Nail Art</a></li>
           </ul>
         </div>
       </div>
@@ -1270,6 +1270,16 @@
        JAVASCRIPT
   ============================================================ -->
   <script>
+    /* ----- Smooth scroll via data-target (sem hash na URL) ----- */
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('[data-target]');
+      if (!link) return;
+      const target = document.getElementById(link.dataset.target);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    });
+
     /* ----- Navbar scroll effect ----- */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
