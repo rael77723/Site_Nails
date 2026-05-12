@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- ===== SEO META TAGS ===== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SwagNails – Nail Designer com swag e atitude. Alongamentos, banho de gel, esmaltação e nail art babilônica. Agende seu horário pelo WhatsApp!" />
@@ -9,18 +8,20 @@
   <meta property="og:title" content="SwagNails – Seja Autêntica" />
   <meta property="og:description" content="Unhas babilônicas com muito carinho e paciência. Agende já!" />
   <meta property="og:type" content="website" />
+  
   <title>SwagNails – Seja Autêntica</title>
-  <!-- Favicon: ícone de unha na aba do navegador -->
+  
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💅</text></svg>" />
 
-  <!-- ===== GOOGLE FONTS ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES – PALETA SwagNails
+       CSS CUSTOM PROPERTIES – GLOBAIS E COMPARTILHADAS
     ============================================================ */
     :root {
       --bg:        #4A001A;
@@ -31,20 +32,14 @@
       --gold:      #D4A0A0;
       --gold-lite: #F5D0D8;
       --text-muted:#C0708A;
-
       --font-display: 'Playfair Display', serif;
       --font-body:    'Cormorant Garamond', serif;
       --font-ui:      'DM Sans', sans-serif;
-
       --radius: 2px;
       --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* ============================================================
-       RESET & BASE
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -54,1223 +49,627 @@
       font-size: 1.1rem;
       line-height: 1.7;
       overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Textura de Noise Global */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9998; opacity: 0.4;
     }
 
     img { max-width: 100%; display: block; }
     a   { text-decoration: none; color: inherit; }
 
-    /* ============================================================
-       UTILITY CLASSES
-    ============================================================ */
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    /* Scrollbar estendida da aba agenda mas aplicada ao site todo para padronizar o visual */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: rgba(212,160,160,0.18); border-radius:4px; }
 
-    .section-label {
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.15;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-family: var(--font-ui);
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--cta), #D4205A);
-      color: var(--white);
-      box-shadow: 0 8px 32px rgba(176,26,78,0.45);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 16px 40px rgba(176,26,78,0.6);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--gold);
-      border: 1.5px solid var(--gold);
-    }
-
-    .btn-outline:hover {
-      background: var(--gold);
-      color: var(--bg);
-      transform: translateY(-2px);
-    }
 
     /* ============================================================
-       SCROLL REVEAL ANIMATIONS
+       CSS - SITE PRINCIPAL
     ============================================================ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; color: var(--white); margin-bottom: 1.5rem; }
+    .section-title em { font-style: italic; color: var(--gold); }
+    
+    .btn { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; padding: 1rem 2rem; border-radius: 50px; cursor: pointer; transition: var(--transition); border: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--cta), #D4205A); color: var(--white); box-shadow: 0 8px 32px rgba(176,26,78,0.45); }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(176,26,78,0.6); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+    .btn-outline:hover { background: var(--gold); color: var(--bg); transform: translateY(-2px); }
 
-    /* ============================================================
-       NOISE TEXTURE OVERLAY
-    ============================================================ */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9998;
-      opacity: 0.4;
-    }
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
 
-    /* ============================================================
-       NAVBAR
-    ============================================================ */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 1.2rem 0;
-      transition: var(--transition);
-    }
-
-    .navbar.scrolled {
-      background: rgba(74, 0, 26, 0.92);
-      backdrop-filter: blur(16px);
-      padding: 0.8rem 0;
-      box-shadow: 0 2px 40px rgba(0,0,0,0.4);
-    }
-
-    .navbar .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 0.05em;
-    }
-
-    .nav-logo span {
-      color: var(--gold);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-family: var(--font-ui);
-      font-size: 0.78rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold-lite);
-      transition: color 0.3s;
-    }
-
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 0; transition: var(--transition); }
+    .navbar.scrolled { background: rgba(74, 0, 26, 0.92); backdrop-filter: blur(16px); padding: 0.8rem 0; box-shadow: 0 2px 40px rgba(0,0,0,0.4); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--white); letter-spacing: 0.05em; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-lite); transition: color 0.3s; }
     .nav-links a:hover { color: var(--white); }
 
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--gold);
-      transition: var(--transition);
-    }
-
-    /* Mobile menu */
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      gap: 0;
-      background: rgba(74, 0, 26, 0.98);
-      backdrop-filter: blur(20px);
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); transition: var(--transition); }
+    .mobile-menu { display: none; flex-direction: column; gap: 0; background: rgba(74, 0, 26, 0.98); backdrop-filter: blur(20px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999; justify-content: center; align-items: center; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-style: italic;
-      color: var(--white);
-      padding: 0.8rem 0;
-      transition: color 0.3s;
-    }
+    .mobile-menu a { font-family: var(--font-display); font-size: 2rem; font-style: italic; color: var(--white); padding: 0.8rem 0; transition: color 0.3s; }
     .mobile-menu a:hover { color: var(--gold); }
-    .mobile-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 2rem;
-      color: var(--gold);
-      cursor: pointer;
-      font-family: var(--font-ui);
-    }
+    .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 2rem; color: var(--gold); cursor: pointer; font-family: var(--font-ui); }
 
-    /* ============================================================
-       HERO SECTION
-    ============================================================ */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
+    #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; }
+    #hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(176,26,78,0.25) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 80%, rgba(145,18,62,0.2) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(74,0,26,0.5) 0%, transparent 60%); }
+    .hero-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(212,160,160,0.12); pointer-events: none; }
+    .hero-ring:nth-child(1) { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: ringPulse 6s ease-in-out infinite; }
+    .hero-ring:nth-child(2) { width: 900px; height: 900px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: ringPulse 6s ease-in-out 1s infinite; }
+    .hero-ring:nth-child(3) { width: 1200px; height: 1200px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: ringPulse 6s ease-in-out 2s infinite; }
+    @keyframes ringPulse { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.04); } }
+    
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-eyebrow { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+    .hero-title { font-family: var(--font-display); font-size: clamp(4.5rem, 14vw, 10rem); font-weight: 900; line-height: 0.9; color: var(--white); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; text-shadow: 0 0 80px rgba(176,26,78,0.4); }
+    .hero-tagline { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.4rem); color: var(--gold); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; letter-spacing: 0.05em; }
+    .hero-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+    
+    .scroll-indicator { position: absolute; bottom: 2rem; left: 47,9%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; opacity: 0; animation: fadeUp 1s 1.5s forwards; }
+    .scroll-indicator span { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-right: -0.25em; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text-muted), transparent); animation: scrollLine 1.5s ease-in-out infinite; }
+    @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Radial gradient background decoration */
-    #hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(176,26,78,0.25) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(145,18,62,0.2) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(74,0,26,0.5) 0%, transparent 60%);
-    }
+    #sobre { padding: 8rem 0; position: relative; }
+    #sobre .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .sobre-visual { position: relative; }
+    .sobre-card { background: linear-gradient(135deg, var(--secondary), rgba(145,18,62,0.6)); border: 1px solid rgba(212,160,160,0.15); border-radius: 12px; padding: 3rem; position: relative; overflow: hidden; }
+    .sobre-card::before { content: '✦'; position: absolute; top: -1rem; right: 1.5rem; font-size: 8rem; color: rgba(212,160,160,0.06); line-height: 1; pointer-events: none; }
+    .sobre-card-emoji { font-size: 3.5rem; margin-bottom: 1.5rem; display: block; }
+    .sobre-card h3 { font-family: var(--font-display); font-size: 1.8rem; font-style: italic; color: var(--gold); margin-bottom: 1rem; }
+    .sobre-card p { font-size: 1.05rem; color: var(--light); line-height: 1.8; }
+    .sobre-text p { font-size: 1.15rem; color: var(--light); margin-bottom: 1.5rem; line-height: 1.9; }
+    .sobre-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(176,26,78,0.2); border: 1px solid rgba(176,26,78,0.4); border-radius: 50px; padding: 0.4rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold-lite); margin-bottom: 1.5rem; }
 
-    /* Decorative rings */
-    .hero-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(212,160,160,0.12);
-      pointer-events: none;
-    }
-    .hero-ring:nth-child(1) {
-      width: 600px; height: 600px;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: ringPulse 6s ease-in-out infinite;
-    }
-    .hero-ring:nth-child(2) {
-      width: 900px; height: 900px;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: ringPulse 6s ease-in-out 1s infinite;
-    }
-    .hero-ring:nth-child(3) {
-      width: 1200px; height: 1200px;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: ringPulse 6s ease-in-out 2s infinite;
-    }
+    #formatos { padding: 5rem 0; }
+    .formatos-img-wrap { margin-top: 3rem; display: flex; justify-content: center; }
+    .formatos-img-frame { position: relative; display: inline-block; border-radius: 20px; overflow: hidden; box-shadow: 0 0 60px 20px rgba(74,0,26,0.7), 0 30px 80px rgba(0,0,0,0.5); max-width: 660px; width: 45%; }
+    .formatos-img-frame::after { content: ''; position: absolute; inset: 0; border-radius: 20px; background: linear-gradient(to right,  rgba(74,0,26,0.55) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.55) 100%), linear-gradient(to bottom, rgba(74,0,26,0.45) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.45) 100%); pointer-events: none; }
+    .formatos-img-frame img { display: block; width: 100%; height: auto; border-radius: 20px; filter: saturate(0.92) brightness(0.97); }
 
-    @keyframes ringPulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.04); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-    }
-
-    .hero-eyebrow {
-      font-family: var(--font-ui);
-      font-size: 0.72rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.3s forwards;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(4.5rem, 14vw, 10rem);
-      font-weight: 900;
-      line-height: 0.9;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.5s forwards;
-      text-shadow: 0 0 80px rgba(176,26,78,0.4);
-    }
-
-    .hero-tagline {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1.4rem, 4vw, 2.4rem);
-      color: var(--gold);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.7s forwards;
-      letter-spacing: 0.05em;
-    }
-
-    .hero-cta-group {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.9s forwards;
-    }
-
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 47,9%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      opacity: 0;
-      animation: fadeUp 1s 1.5s forwards;
-    }
-    .scroll-indicator span {
-      font-family: var(--font-ui);
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-right: -0.25em; /* neutralise trailing letter-spacing so the text centres truly */
-    }
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--text-muted), transparent);
-      animation: scrollLine 1.5s ease-in-out infinite;
-    }
-    @keyframes scrollLine {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ============================================================
-       SOBRE SECTION
-    ============================================================ */
-    #sobre {
-      padding: 8rem 0;
-      position: relative;
-    }
-
-    #sobre .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-
-    .sobre-visual {
-      position: relative;
-    }
-
-    .sobre-card {
-      background: linear-gradient(135deg, var(--secondary), rgba(145,18,62,0.6));
-      border: 1px solid rgba(212,160,160,0.15);
-      border-radius: 12px;
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sobre-card::before {
-      content: '✦';
-      position: absolute;
-      top: -1rem;
-      right: 1.5rem;
-      font-size: 8rem;
-      color: rgba(212,160,160,0.06);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .sobre-card-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-
-    .sobre-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-style: italic;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .sobre-card p {
-      font-size: 1.05rem;
-      color: var(--light);
-      line-height: 1.8;
-    }
-
-    .sobre-text p {
-      font-size: 1.15rem;
-      color: var(--light);
-      margin-bottom: 1.5rem;
-      line-height: 1.9;
-    }
-
-    .sobre-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(176,26,78,0.2);
-      border: 1px solid rgba(176,26,78,0.4);
-      border-radius: 50px;
-      padding: 0.4rem 1rem;
-      font-family: var(--font-ui);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      color: var(--gold-lite);
-      margin-bottom: 1.5rem;
-    }
-
-    /* ============================================================
-       FORMATOS SECTION
-    ============================================================ */
-    #formatos {
-      padding: 5rem 0;
-    }
-
-    /* ── Formatos: imagem centralizada ── */
-    .formatos-img-wrap {
-      margin-top: 3rem;
-      display: flex;
-      justify-content: center;
-    }
-
-    .formatos-img-frame {
-      position: relative;
-      display: inline-block;
-      border-radius: 20px;
-      overflow: hidden;
-      /* Vinheta suave nas bordas para fundir com o fundo */
-      box-shadow:
-        0 0 60px 20px rgba(74,0,26,0.7),
-        0 30px 80px rgba(0,0,0,0.5);
-      max-width: 660px;
-      width: 45%;
-    }
-
-    /* Gradiente de fade nas 4 bordas — faz a imagem "desaparecer" no fundo */
-    .formatos-img-frame::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      background:
-        linear-gradient(to right,  rgba(74,0,26,0.55) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.55) 100%),
-        linear-gradient(to bottom, rgba(74,0,26,0.45) 0%, transparent 18%, transparent 82%, rgba(74,0,26,0.45) 100%);
-      pointer-events: none;
-    }
-
-    .formatos-img-frame img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 20px;
-      /* Leve saturação para harmonizar com a paleta */
-      filter: saturate(0.92) brightness(0.97);
-    }
-
-    /* ============================================================
-       SERVIÇOS / TABELA DE PREÇOS
-    ============================================================ */
-    #servicos {
-      padding: 8rem 0;
-      position: relative;
-    }
-
-    #servicos::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent);
-    }
-
-    .servicos-intro {
-      max-width: 600px;
-      margin-bottom: 4rem;
-    }
-
-    .preco-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .preco-card {
-      background: linear-gradient(145deg, rgba(145,18,62,0.25), rgba(74,0,26,0.4));
-      border: 1px solid rgba(212,160,160,0.12);
-      border-radius: 12px;
-      padding: 2.5rem;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .preco-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(176,26,78,0.08), transparent);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .preco-card:hover {
-      border-color: rgba(212,160,160,0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-    }
-
+    #servicos { padding: 8rem 0; position: relative; }
+    #servicos::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent); }
+    .servicos-intro { max-width: 600px; margin-bottom: 4rem; }
+    .preco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .preco-card { background: linear-gradient(145deg, rgba(145,18,62,0.25), rgba(74,0,26,0.4)); border: 1px solid rgba(212,160,160,0.12); border-radius: 12px; padding: 2.5rem; transition: var(--transition); position: relative; overflow: hidden; }
+    .preco-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(176,26,78,0.08), transparent); opacity: 0; transition: opacity 0.4s; }
+    .preco-card:hover { border-color: rgba(212,160,160,0.3); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
     .preco-card:hover::after { opacity: 1; }
-
-    .preco-card-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--cta), #D4205A);
-      color: var(--white);
-      font-family: var(--font-ui);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
-      border-radius: 50px;
-      margin-bottom: 1.2rem;
-    }
-
-    .preco-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-
-    .preco-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.7rem 0;
-      border-bottom: 1px solid rgba(212,160,160,0.08);
-    }
-
+    .preco-card-badge { display: inline-block; background: linear-gradient(135deg, var(--cta), #D4205A); color: var(--white); font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 50px; margin-bottom: 1.2rem; }
+    .preco-card h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--white); margin-bottom: 1.5rem; }
+    .preco-item { display: flex; justify-content: space-between; align-items: baseline; padding: 0.7rem 0; border-bottom: 1px solid rgba(212,160,160,0.08); }
     .preco-item:last-child { border-bottom: none; }
+    .preco-item-nome { font-size: 0.98rem; color: var(--light); }
+    .preco-item-valor { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--gold); white-space: nowrap; margin-left: 1rem; }
+    
+    .obs-box { background: rgba(176,26,78,0.12); border: 1px solid rgba(176,26,78,0.3); border-left: 4px solid var(--cta); border-radius: 0 8px 8px 0; padding: 1.5rem 2rem; margin-top: 2rem; }
+    .obs-box p { font-size: 0.95rem; color: var(--gold-lite); line-height: 1.8; }
+    .obs-box strong { color: var(--gold); font-weight: 600; }
+    
+    .adicional-card { grid-column: 1 / -1; background: linear-gradient(135deg, rgba(176,26,78,0.2), rgba(145,18,62,0.3)); border: 1px solid rgba(212,160,160,0.2); border-radius: 12px; padding: 2.5rem; text-align: center; }
+    .adicional-card h3 { font-family: var(--font-display); font-size: 2rem; font-style: italic; color: var(--gold); margin-bottom: 1rem; }
+    .adicional-card p { font-size: 1.05rem; color: var(--light); max-width: 600px; margin: 0 auto 1.5rem; }
+    .adicional-price { font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: var(--white); display: block; }
 
-    .preco-item-nome {
-      font-size: 0.98rem;
-      color: var(--light);
-    }
+    #agendamento { padding: 8rem 0; background: linear-gradient(180deg, rgba(145,18,62,0.15), transparent); }
+    #agendamento::before { content: ''; display: block; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent); margin-bottom: 8rem; margin-top: -8rem; }
+    .agendamento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .agenda-card { background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5)); border: 1px solid rgba(212,160,160,0.12); border-radius: 12px; padding: 2.5rem; transition: var(--transition); }
+    .agenda-card:hover { border-color: rgba(212,160,160,0.25); transform: translateY(-4px); }
+    .agenda-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .agenda-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); margin-bottom: 1rem; }
+    .agenda-card p, .agenda-card li { font-size: 0.98rem; color: var(--light); line-height: 1.8; }
+    .agenda-card ul { list-style: none; padding: 0; }
+    .agenda-card ul li { padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
+    .agenda-card ul li::before { content: '◆'; position: absolute; left: 0; color: var(--cta); font-size: 0.5rem; top: 0.55rem; }
+    .alerta-box { background: rgba(176,26,78,0.15); border: 1px solid rgba(176,26,78,0.35); border-radius: 8px; padding: 1rem 1.5rem; margin-top: 1rem; font-size: 0.88rem; color: var(--gold-lite); }
+    .pagamento-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .chip { background: rgba(145,18,62,0.35); border: 1px solid rgba(212,160,160,0.2); border-radius: 50px; padding: 0.35rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; color: var(--gold-lite); letter-spacing: 0.05em; }
 
-    .preco-item-valor {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--gold);
-      white-space: nowrap;
-      margin-left: 1rem;
-    }
-
-    /* Observações */
-    .obs-box {
-      background: rgba(176,26,78,0.12);
-      border: 1px solid rgba(176,26,78,0.3);
-      border-left: 4px solid var(--cta);
-      border-radius: 0 8px 8px 0;
-      padding: 1.5rem 2rem;
-      margin-top: 2rem;
-    }
-
-    .obs-box p {
-      font-size: 0.95rem;
-      color: var(--gold-lite);
-      line-height: 1.8;
-    }
-
-    .obs-box strong {
-      color: var(--gold);
-      font-weight: 600;
-    }
-
-    /* Adicional card */
-    .adicional-card {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(176,26,78,0.2), rgba(145,18,62,0.3));
-      border: 1px solid rgba(212,160,160,0.2);
-      border-radius: 12px;
-      padding: 2.5rem;
-      text-align: center;
-    }
-
-    .adicional-card h3 {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-style: italic;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .adicional-card p {
-      font-size: 1.05rem;
-      color: var(--light);
-      max-width: 600px;
-      margin: 0 auto 1.5rem;
-    }
-
-    .adicional-price {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--white);
-      display: block;
-    }
-
-    /* ============================================================
-       AGENDAMENTO SECTION
-    ============================================================ */
-    #agendamento {
-      padding: 8rem 0;
-      background: linear-gradient(180deg, rgba(145,18,62,0.15), transparent);
-    }
-
-    #agendamento::before {
-      content: '';
-      display: block;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent);
-      margin-bottom: 8rem;
-      margin-top: -8rem;
-    }
-
-    .agendamento-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-
-    .agenda-card {
-      background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5));
-      border: 1px solid rgba(212,160,160,0.12);
-      border-radius: 12px;
-      padding: 2.5rem;
-      transition: var(--transition);
-    }
-
-    .agenda-card:hover {
-      border-color: rgba(212,160,160,0.25);
-      transform: translateY(-4px);
-    }
-
-    .agenda-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .agenda-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .agenda-card p,
-    .agenda-card li {
-      font-size: 0.98rem;
-      color: var(--light);
-      line-height: 1.8;
-    }
-
-    .agenda-card ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .agenda-card ul li {
-      padding: 0.3rem 0;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-
-    .agenda-card ul li::before {
-      content: '◆';
-      position: absolute;
-      left: 0;
-      color: var(--cta);
-      font-size: 0.5rem;
-      top: 0.55rem;
-    }
-
-    .alerta-box {
-      background: rgba(176,26,78,0.15);
-      border: 1px solid rgba(176,26,78,0.35);
-      border-radius: 8px;
-      padding: 1rem 1.5rem;
-      margin-top: 1rem;
-      font-size: 0.88rem;
-      color: var(--gold-lite);
-    }
-
-    .pagamento-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1rem;
-    }
-
-    .chip {
-      background: rgba(145,18,62,0.35);
-      border: 1px solid rgba(212,160,160,0.2);
-      border-radius: 50px;
-      padding: 0.35rem 1rem;
-      font-family: var(--font-ui);
-      font-size: 0.78rem;
-      color: var(--gold-lite);
-      letter-spacing: 0.05em;
-    }
-
-    /* ============================================================
-       CONTATO / CTA SECTION
-    ============================================================ */
-    #contato {
-      padding: 8rem 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #contato::before {
-      content: '';
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(176,26,78,0.2), transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
+    #contato { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
+    #contato::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(176,26,78,0.2), transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
     #contato .container { position: relative; z-index: 1; }
+    .contato-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1.1; color: var(--white); margin-bottom: 1.5rem; }
+    .contato-title em { font-style: italic; color: var(--gold); }
+    .contato-sub { font-size: 1.15rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 3rem; }
+    
+    .whatsapp-big-btn { display: inline-flex; align-items: center; gap: 1rem; background: linear-gradient(135deg, #25D366, #128C7E); color: var(--white); font-family: var(--font-ui); font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 1.2rem 2.8rem; border-radius: 50px; transition: var(--transition); box-shadow: 0 8px 32px rgba(37,211,102,0.35); }
+    .whatsapp-big-btn:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 16px 48px rgba(37,211,102,0.5); }
+    .whatsapp-icon { width: 28px; height: 28px; fill: white; }
 
-    .contato-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      line-height: 1.1;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-
-    .contato-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .contato-sub {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin: 0 auto 3rem;
-    }
-
-    .whatsapp-big-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      color: var(--white);
-      font-family: var(--font-ui);
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: 1.2rem 2.8rem;
-      border-radius: 50px;
-      transition: var(--transition);
-      box-shadow: 0 8px 32px rgba(37,211,102,0.35);
-    }
-
-    .whatsapp-big-btn:hover {
-      transform: translateY(-4px) scale(1.04);
-      box-shadow: 0 16px 48px rgba(37,211,102,0.5);
-    }
-
-    .whatsapp-icon {
-      width: 28px;
-      height: 28px;
-      fill: white;
-    }
-
-    /* ============================================================
-       FOOTER
-    ============================================================ */
-    footer {
-      background: rgba(0,0,0,0.3);
-      border-top: 1px solid rgba(212,160,160,0.08);
-      padding: 4rem 0 2rem;
-    }
-
-    .footer-inner {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 4rem;
-      margin-bottom: 3rem;
-    }
-
-    .footer-logo {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
-
+    footer { background: rgba(0,0,0,0.3); border-top: 1px solid rgba(212,160,160,0.08); padding: 4rem 0 2rem; }
+    .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 1rem; }
     .footer-logo span { color: var(--gold); }
-
-    .footer-tagline {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--text-muted);
-    }
-
-    .footer-col h4 {
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .footer-col ul a {
-      font-family: var(--font-ui);
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      transition: color 0.3s;
-    }
-
+    .footer-tagline { font-family: var(--font-display); font-style: italic; font-size: 1rem; color: var(--text-muted); }
+    .footer-col h4 { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { font-family: var(--font-ui); font-size: 0.88rem; color: var(--text-muted); transition: color 0.3s; }
     .footer-col ul a:hover { color: var(--gold-lite); }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(212,160,160,0.08);
-      padding-top: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-bottom p {
-      font-family: var(--font-ui);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
+    .footer-bottom { border-top: 1px solid rgba(212,160,160,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-family: var(--font-ui); font-size: 0.75rem; color: var(--text-muted); }
     .footer-heart { color: var(--cta); }
 
-    /* ============================================================
-       WHATSAPP FLOATING BUTTON
-    ============================================================ */
-    .wpp-float {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: wppPulse 2.5s ease-in-out infinite;
-    }
+    .wpp-float { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; background: linear-gradient(135deg, #25D366, #128C7E); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 9999; box-shadow: 0 8px 24px rgba(37,211,102,0.4); transition: transform 0.3s, box-shadow 0.3s; animation: wppPulse 2.5s ease-in-out infinite; }
+    .wpp-float:hover { transform: scale(1.12); box-shadow: 0 12px 36px rgba(37,211,102,0.6); animation: none; }
+    .wpp-float svg { width: 32px; height: 32px; fill: white; }
+    .wpp-float::before { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(37,211,102,0.4); animation: wppRing 2.5s ease-in-out infinite; }
+    @keyframes wppPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes wppRing { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
+    
+    .ornament { text-align: center; color: rgba(212,160,160,0.25); font-size: 1.2rem; letter-spacing: 0.8rem; margin: 1rem 0; }
 
-    .wpp-float:hover {
-      transform: scale(1.12);
-      box-shadow: 0 12px 36px rgba(37,211,102,0.6);
-      animation: none;
-    }
-
-    .wpp-float svg {
-      width: 32px;
-      height: 32px;
-      fill: white;
-    }
-
-    /* Pulsing ring */
-    .wpp-float::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: rgba(37,211,102,0.4);
-      animation: wppRing 2.5s ease-in-out infinite;
-    }
-
-    @keyframes wppPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    @keyframes wppRing {
-      0% { transform: scale(1); opacity: 0.8; }
-      100% { transform: scale(1.8); opacity: 0; }
-    }
-
-    /* ============================================================
-       DIVISOR ORNAMENTAL
-    ============================================================ */
-    .ornament {
-      text-align: center;
-      color: rgba(212,160,160,0.25);
-      font-size: 1.2rem;
-      letter-spacing: 0.8rem;
-      margin: 1rem 0;
-    }
-
-    /* ============================================================
-       RESPONSIVE
-    ============================================================ */
+    /* Site Responsivo Principal */
     @media (max-width: 900px) {
-      #sobre .container,
-      .preco-grid,
-      .agendamento-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .formatos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .footer-inner {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
+      #sobre .container, .preco-grid, .agendamento-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .formatos-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .adicional-card { grid-column: 1 / -1; }
-
       .nav-links { display: none; }
-
       .hamburger { display: flex; }
     }
-
     @media (max-width: 600px) {
-      .formatos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .hero-cta-group {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn { width: 100%; justify-content: center; }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-      }
-
-      .wpp-float {
-        width: 54px;
-        height: 54px;
-        bottom: 1.5rem;
-        right: 1.5rem;
-      }
+      .formatos-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-cta-group { flex-direction: column; align-items: center; }
+      #main-site .btn { width: 100%; justify-content: center; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .wpp-float { width: 54px; height: 54px; bottom: 1.5rem; right: 1.5rem; }
     }
+
+    /* ============================================================
+       CSS - GERADOR DE AGENDA (Escopado para não conflitar)
+    ============================================================ */
+    #agenda-tool { font-size: 1rem; line-height: 1.6; }
+    #agenda-tool .page-wrap { max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    #agenda-tool .page-header { text-align: center; padding: 2.5rem 0 2rem; border-bottom: 1px solid rgba(212,160,160,0.18); margin-bottom: 2rem; }
+    #agenda-tool .logo { font-family: var(--font-display); font-size: 1.9rem; font-weight: 900; color: var(--white); }
+    #agenda-tool .logo span { color: var(--gold); }
+    #agenda-tool .badge { display: inline-block; margin-top: 0.4rem; font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); border: 1px solid rgba(192,112,138,0.3); padding: 0.25rem 0.8rem; border-radius: 50px; }
+    #agenda-tool .page-header h1 { font-family: var(--font-display); font-size: clamp(1.4rem,3vw,2.2rem); color: var(--white); margin-top: 1.2rem; line-height: 1.2; }
+    #agenda-tool .page-header h1 em { font-style: italic; color: var(--gold); }
+    
+    #agenda-tool .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 1.8rem; align-items: start; }
+    @media (max-width: 960px) { #agenda-tool .main-grid { grid-template-columns: 1fr; } }
+    
+    #agenda-tool .panel { background: rgba(145,18,62,0.18); border: 1px solid rgba(212,160,160,0.14); border-radius: 12px; padding: 1.5rem; backdrop-filter: blur(8px); margin-bottom: 1.2rem; }
+    #agenda-tool .panel-title { font-family: var(--font-ui); font-size: 0.64rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+    #agenda-tool .panel-title::after { content:''; flex:1; height:1px; background:rgba(212,160,160,0.18); }
+    
+    #agenda-tool .field-label { display: block; font-family: var(--font-ui); font-size: 0.74rem; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.35rem; margin-top: 1rem; }
+    #agenda-tool .field-label:first-child { margin-top: 0; }
+    #agenda-tool .field-input { width: 100%; background: rgba(74,0,26,0.6); border: 1px solid rgba(212,160,160,0.22); border-radius: 6px; color: var(--light); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.62rem 0.9rem; transition: border-color 0.3s; outline: none; }
+    #agenda-tool .field-input:focus { border-color: var(--gold); }
+    #agenda-tool input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7) sepia(1) hue-rotate(300deg); cursor: pointer; }
+    #agenda-tool input[type="file"].field-input { padding: 0.45rem; cursor: pointer; }
+    #agenda-tool .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    
+    #agenda-tool .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; padding: 0.78rem 1.6rem; border-radius: 50px; cursor: pointer; transition: var(--transition); border: none; width: 100%; margin-top: 1rem; }
+    #agenda-tool .btn-primary { background: linear-gradient(135deg,var(--cta),#D4205A); color:#fff; box-shadow: 0 6px 20px rgba(176,26,78,0.4); }
+    #agenda-tool .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(176,26,78,0.6); }
+    #agenda-tool .btn-primary:disabled { opacity:0.38; cursor:not-allowed; transform:none; box-shadow:none; }
+    #agenda-tool .btn-outline { background:transparent; color:var(--gold); border:1.5px solid var(--gold); }
+    #agenda-tool .btn-outline:hover { background:var(--gold); color:var(--bg); transform:translateY(-2px); }
+    #agenda-tool .btn-export { background:linear-gradient(135deg,#1a7a4a,#25a868); color:#fff; box-shadow:0 6px 20px rgba(26,122,74,0.4); }
+    #agenda-tool .btn-export:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(26,122,74,0.6); }
+    #agenda-tool .btn-export:disabled { opacity:0.38; cursor:not-allowed; transform:none; }
+    
+    #agenda-tool .alert { background:rgba(212,160,160,0.07); border-left:3px solid var(--gold); border-radius:4px; padding:0.7rem 0.9rem; font-size:0.8rem; color:var(--text-muted); margin-top:0.8rem; font-family:var(--font-ui); line-height:1.5; }
+    #agenda-tool .alert.error { border-color:#e04; color:#ff8888; background:rgba(238,0,68,0.07); }
+    #agenda-tool .alert.success { border-color:#25a868; color:#6ffab8; background:rgba(37,168,104,0.07); }
+    
+    #agenda-tool .option-row { display:flex; gap:1.2rem; flex-wrap:wrap; margin-top:0.8rem; }
+    #agenda-tool .option-chip { display:flex; align-items:center; gap:0.4rem; font-family:var(--font-ui); font-size:0.78rem; color:var(--text-muted); cursor:pointer; }
+    #agenda-tool .option-chip input[type="checkbox"] { width:15px; height:15px; accent-color:var(--cta); }
+    
+    #agenda-tool .preview-panel { position: sticky; top: 1.5rem; }
+    #agenda-tool .preview-outer { width: 100%; position: relative; overflow: hidden; border-radius: 16px; border: 1px solid rgba(212,160,160,0.18); background: #1a0009; }
+    #agenda-tool .preview-inner { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; transform-origin: top left; }
+    
+    /* Template do stories .st- (Totalmente únicos do canvas, não precisam de prefixo) */
+    .st-canvas { width: 1080px; height: 1920px; background: linear-gradient(155deg, #4A001A 0%, #2d000f 45%, #1a0009 100%); position: relative; overflow: hidden; display: flex; flex-direction: column; font-family: 'Cormorant Garamond', serif; }
+    .st-blob-tr { position: absolute; top:-200px; right:-160px; width:640px; height:640px; background:radial-gradient(circle,rgba(176,26,78,0.3) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+    .st-blob-bl { position: absolute; bottom:-200px; left:-160px; width:680px; height:680px; background:radial-gradient(circle,rgba(145,18,62,0.2) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+    .st-header { text-align: center; padding: 60px 40px 16px; position: relative; z-index: 2; flex-shrink: 0; }
+    .st-brand { font-family: 'Playfair Display', serif; font-size: 76px; font-weight: 900; color: #fff; letter-spacing: 0.04em; line-height: 1; }
+    .st-brand span { color: #D4A0A0; }
+    .st-tagline { font-family: 'DM Sans', sans-serif; font-size: 20px; letter-spacing: 0.42em; text-transform: uppercase; color: #C0708A; margin-top: 12px; }
+    .st-ornament { color: #D4A0A0; font-size: 24px; letter-spacing: 0.55em; margin-top: 16px; }
+    .st-week { text-align: center; padding: 10px 40px 6px; position: relative; z-index: 2; flex-shrink: 0; }
+    .st-week-label { font-family: 'DM Sans', sans-serif; font-size: 16px; letter-spacing: 0.4em; text-transform: uppercase; color: #C0708A; }
+    .st-week-range { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; font-style: italic; color: #fff; line-height: 1.25; margin-top: 6px; }
+    .st-divider { margin: 16px 60px; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.5), transparent); position: relative; z-index: 2; flex-shrink: 0; }
+    .st-days { flex: 1; padding: 10px 40px; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 2; overflow: hidden; justify-content: center; }
+    .st-day { display: flex; align-items: stretch; border-radius: 12px; overflow: hidden; background: rgba(145,18,62,0.18); border: 1px solid rgba(212,160,160,0.15); flex-shrink: 0; }
+    .st-day-label { background: rgba(176,26,78,0.3); padding: 16px; min-width: 170px; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; text-align: center; }
+    .st-day-name { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: #fff; line-height: 1; }
+    .st-day-date { font-family: 'DM Sans', sans-serif; font-size: 16px; color: #D4A0A0; margin-top: 6px; letter-spacing: 0.08em; }
+    .st-day-slots { flex: 1; padding: 16px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; align-content: center; }
+    .st-slot { display: flex; align-items: center; gap: 12px; font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #F9E4EC; line-height: 1.2; }
+    .st-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-disp { background: #6ffab8; box-shadow: 0 0 6px rgba(111,250,184,0.6); }
+    .dot-busy { background: #ff9bba; box-shadow: 0 0 6px rgba(255,155,186,0.6); }
+    .dot-neutral { background: #C0708A; box-shadow: none; }
+    .st-time { font-weight: 700; color: #D4A0A0; min-width: 70px; font-size: 26px; }
+    .st-status { font-style: italic; font-size: 26px; }
+    .st-status.disp { color: #6ffab8; }
+    .st-status.busy { color: #ff9bba; }
+    .st-status.neutral { color: #F9E4EC; font-style: normal; font-weight: 500; }
+    .st-footer { padding: 16px 60px 60px; text-align: center; position: relative; z-index: 2; flex-shrink: 0; }
+    .st-footer-div { height: 2px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.4), transparent); margin-bottom: 20px; }
+    .st-footer-cta { font-family: 'DM Sans', sans-serif; font-size: 16px; letter-spacing: 0.26em; text-transform: uppercase; color: #C0708A; margin-bottom: 8px; }
+    .st-footer-phone { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; font-style: italic; color: #fff; }
+    
+    .st-layout-few .st-days { gap: 32px; }
+    .st-layout-few .st-day { border-radius: 16px; }
+    .st-layout-few .st-day-label { padding: 30px; min-width: 240px; }
+    .st-layout-few .st-day-name { font-size: 52px; }
+    .st-layout-few .st-day-date { font-size: 20px; margin-top: 10px; }
+    .st-layout-few .st-day-slots { gap: 20px 30px; padding: 24px 30px; }
+    .st-layout-few .st-slot { font-size: 38px; gap: 16px; }
+    .st-layout-few .st-time, .st-layout-few .st-status { font-size: 38px; }
+    .st-layout-few .st-dot { width: 14px; height: 14px; }
+    
+    #agenda-tool [contenteditable="true"]:hover { background:rgba(212,160,160,0.09); border-radius:3px; }
+    #agenda-tool [contenteditable="true"]:focus { background:rgba(212,160,160,0.14); border-radius:3px; outline:none; box-shadow:0 0 0 2px rgba(212,160,160,0.28); }
+    
+    #agenda-tool .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center; gap: 0.8rem; color: var(--text-muted); }
+    #agenda-tool .empty-state .ico { font-size: 2.5rem; opacity: 0.35; }
+    #agenda-tool .empty-state p { font-family: var(--font-ui); font-size: 0.8rem; max-width: 280px; line-height: 1.5; }
+    
+    #export-stage { position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; pointer-events: none; z-index: -1; overflow: hidden; }
+    
+    #agenda-tool .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
-  <nav class="navbar" id="navbar">
-    <div class="container">
-      <a href="javascript:void(0)" class="nav-logo" data-target="hero">Swag<span>Nails</span></a>
-      <ul class="nav-links">
-        <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
-        <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
-        <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
-      </ul>
-      <div class="hamburger" id="hamburger" aria-label="Menu" role="button">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  </nav>
+  <script>
+    function checkAppRoute() {
+      const hash = window.location.hash;
+      const mainSite = document.getElementById('main-site');
+      const agendaTool = document.getElementById('agenda-tool');
+      
+      if (hash === '#agendamnb5') {
+        if(mainSite) mainSite.style.display = 'none';
+        if(agendaTool) agendaTool.style.display = 'block';
+        document.title = 'SwagNails · Gerador de Agenda · Uso Interno';
+        
+        // Dispara a escala do painel no script da agenda caso exista
+        if (typeof updateScale === 'function') {
+          setTimeout(updateScale, 50);
+        }
+      } else {
+        if(mainSite) mainSite.style.display = 'block';
+        if(agendaTool) agendaTool.style.display = 'none';
+        document.title = 'SwagNails – Seja Autêntica';
+      }
+    }
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <span class="mobile-close" id="mobileClose">✕</span>
-    <a href="javascript:void(0)" data-target="sobre"       onclick="closeMobileMenu()">Sobre</a>
-    <a href="javascript:void(0)" data-target="agendamento" onclick="closeMobileMenu()">Agendamento</a>
-    <a href="javascript:void(0)" data-target="contato"     onclick="closeMobileMenu()">Contato</a>
+    // Ouve as mudanças e verifica na carga da página
+    window.addEventListener('hashchange', checkAppRoute);
+    window.addEventListener('DOMContentLoaded', checkAppRoute);
+    // Executa agora para não causar piscar (flicker)
+    checkAppRoute();
+  </script>
+
+  <div id="main-site">
+    <nav class="navbar" id="navbar">
+      <div class="container">
+        <a href="javascript:void(0)" class="nav-logo" data-target="hero">Swag<span>Nails</span></a>
+        <ul class="nav-links">
+          <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
+          <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
+          <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger" aria-label="Menu" role="button">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <span class="mobile-close" id="mobileClose">✕</span>
+      <a href="javascript:void(0)" data-target="sobre"       onclick="closeMobileMenu()">Sobre</a>
+      <a href="javascript:void(0)" data-target="agendamento" onclick="closeMobileMenu()">Agendamento</a>
+      <a href="javascript:void(0)" data-target="contato"     onclick="closeMobileMenu()">Contato</a>
+    </div>
+
+    <section id="hero">
+      <div class="hero-ring"></div>
+      <div class="hero-ring"></div>
+      <div class="hero-ring"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">✦ Nail Designer ✦</p>
+        <h1 class="hero-title">SwagNails</h1>
+        <p class="hero-tagline">Seja Autêntica.</p>
+        <div class="hero-cta-group">
+          <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
+            Agendar Agora
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span>Deslize</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <div class="sobre-visual reveal-left">
+          <div class="sobre-card">
+            <span class="sobre-card-emoji">✨</span>
+            <h3>Unhas que falam por você</h3>
+            <p>Cada detalhe é pensado com carinho. Do formato a nail art babilônica, o resultado vai te deixar babando.</p>
+          </div>
+        </div>
+        <div class="sobre-text reveal">
+          <p class="section-label">Quem sou</p>
+          <h2 class="section-title">Feito com carinho,<br /><em>entregue com swag</em></h2>
+          <span class="sobre-badge">✦ Nail Designer Iniciante com muito amor ✦</span>
+          <p>Oi, diva! Sou uma nail designer iniciante que está construindo sua trajetória com muita dedicação, paciência e amor pelo que faz.</p>
+          <p>No momento, ofereço os serviços que mais amo e que consigo entregar com excelência. Cada unha é tratada como uma obra de arte, porque você merece nada menos que isso.</p>
+          <p>Obrigada por confiar no meu trabalho! 🤍</p>
+          <a href="javascript:void(0)" data-target="contato" class="btn btn-primary" style="margin-top: 1rem;">
+            Entrar em Contato
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="agendamento">
+      <div class="container">
+        <p class="section-label reveal">Como funciona</p>
+        <h2 class="section-title reveal">Agendamento &amp;<br /><em>Pagamento</em></h2>
+        <div class="ornament reveal">✦ · · · ✦</div>
+
+        <div class="agendamento-grid">
+          <div class="agenda-card reveal">
+            <span class="agenda-icon">📅</span>
+            <h3>Como Agendar</h3>
+            <p>Para garantir seu horário, é necessário realizar o <strong>agendamento prévio</strong>. Os atendimentos são realizados <strong>apenas com horário marcado</strong>.</p>
+            <div class="obs-box" style="margin-top: 1.5rem;">
+              <p>💳 <strong>Sinal de 50%</strong> do valor do serviço para confirmação. O valor é abatido no total final.</p>
+              <p style="margin-top: 0.5rem;">⚠️ <strong>O sinal não é reembolsável</strong> em caso de desistência.</p>
+            </div>
+          </div>
+
+          <div class="agenda-card reveal">
+            <span class="agenda-icon">⏰</span>
+            <h3>Cancelamento &amp; Atraso</h3>
+            <ul>
+              <li>Cancelamentos ou reagendamentos com mínimo de <strong>24h de antecedência</strong>.</li>
+              <li>Fora do prazo ou não comparecimento: <strong>sinal não devolvido</strong> e novo sinal necessário.</li>
+              <li>Atraso superior a <strong>15 minutos</strong>: atendimento cancelado e necessidade de reagendamento.</li>
+            </ul>
+          </div>
+
+          <div class="agenda-card reveal" style="grid-column: 1 / -1;">
+            <span class="agenda-icon">💳</span>
+            <h3>Formas de Pagamento</h3>
+            <div class="pagamento-chips">
+              <span class="chip">📱 PIX</span>
+              <span class="chip">💵 Dinheiro</span>
+              <span class="chip">💳 Cartão de Crédito (Aproximação)*</span>
+              <span class="chip">💳 Cartão de Débito (Aproximação)*</span>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">*Sujeito a taxas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="container">
+        <p class="section-label reveal">Pronta pra arrasar?</p>
+        <h2 class="contato-title reveal">Agende sua<br /><em>sessão agora</em></h2>
+        <p class="contato-sub reveal">Manda uma mensagem e garante seu horário. A diva que você é merece unhas à altura!</p>
+        <div class="reveal">
+          <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="whatsapp-big-btn">
+            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
+            Falar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <div class="footer-logo">Swag<span>Nails</span></div>
+            <p class="footer-tagline">Seja Autêntica. ✨</p>
+          </div>
+          <div class="footer-col">
+            <h4>Navegação</h4>
+            <ul>
+              <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
+              <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
+              <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Serviços</h4>
+            <ul>
+              <li><a href="javascript:void(0)" data-target="agendamento">Alongamento no molde F1</a></li>
+              <li><a href="javascript:void(0)" data-target="agendamento">Banho de Gel</a></li>
+              <li><a href="javascript:void(0)" data-target="agendamento">Blindagem</a></li>
+              <li><a href="javascript:void(0)" data-target="agendamento">Esmaltação em Gel</a></li>
+              <li><a href="javascript:void(0)" data-target="agendamento">Nail Art</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 SwagNails - Feito com <span class="footer-heart">♥</span> para divas autênticas.</p>
+          <p>
+            <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color=''">
+              WhatsApp
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio"
+       target="_blank"
+       rel="noopener"
+       class="wpp-float"
+       aria-label="Fale pelo WhatsApp">
+      <svg viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/>
+      </svg>
+    </a>
   </div>
 
-  <!-- ============================================================
-       HERO SECTION
-  ============================================================ -->
-  <section id="hero">
-    <!-- Decorative rings -->
-    <div class="hero-ring"></div>
-    <div class="hero-ring"></div>
-    <div class="hero-ring"></div>
 
-    <div class="hero-content">
-      <p class="hero-eyebrow">✦ Nail Designer ✦</p>
-      <h1 class="hero-title">SwagNails</h1>
-      <p class="hero-tagline">Seja Autêntica.</p>
-      <div class="hero-cta-group">
-        <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="btn btn-primary">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
-          Agendar Agora
-        </a>
+  <div id="agenda-tool" style="display: none;">
+    <div id="export-stage"></div>
 
-      </div>
-    </div>
+    <div class="page-wrap">
+      <header class="page-header">
+        <div class="logo">Swag<span>Nails</span></div>
+        <div class="badge">🔒 Ferramenta Interna · Uso Exclusivo</div>
+        <h1>Gerador de Agenda<br /><em>para Stories</em></h1>
+      </header>
 
-    <div class="scroll-indicator">
-      <span>Deslize</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SOBRE SECTION
-  ============================================================ -->
-  <section id="sobre">
-    <div class="container">
-      <div class="sobre-visual reveal-left">
-        <div class="sobre-card">
-          <span class="sobre-card-emoji">✨</span>
-          <h3>Unhas que falam por você</h3>
-          <p>Cada detalhe é pensado com carinho. Do formato a nail art babilônica, o resultado vai te deixar babando.</p>
-        </div>
-      </div>
-      <div class="sobre-text reveal">
-        <p class="section-label">Quem sou</p>
-        <h2 class="section-title">Feito com carinho,<br /><em>entregue com swag</em></h2>
-        <span class="sobre-badge">✦ Nail Designer Iniciante com muito amor ✦</span>
-        <p>Oi, diva! Sou uma nail designer iniciante que está construindo sua trajetória com muita dedicação, paciência e amor pelo que faz.</p>
-        <p>No momento, ofereço os serviços que mais amo e que consigo entregar com excelência. Cada unha é tratada como uma obra de arte, porque você merece nada menos que isso.</p>
-        <p>Obrigada por confiar no meu trabalho! 🤍</p>
-        <a href="javascript:void(0)" data-target="contato" class="btn btn-primary" style="margin-top: 1rem;">
-          Entrar em Contato
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-
-
-
-  <!-- ============================================================
-       AGENDAMENTO SECTION
-  ============================================================ -->
-  <section id="agendamento">
-    <div class="container">
-      <p class="section-label reveal">Como funciona</p>
-      <h2 class="section-title reveal">Agendamento &amp;<br /><em>Pagamento</em></h2>
-      <div class="ornament reveal">✦ · · · ✦</div>
-
-      <div class="agendamento-grid">
-
-        <!-- Agendamento -->
-        <div class="agenda-card reveal">
-          <span class="agenda-icon">📅</span>
-          <h3>Como Agendar</h3>
-          <p>Para garantir seu horário, é necessário realizar o <strong>agendamento prévio</strong>. Os atendimentos são realizados <strong>apenas com horário marcado</strong>.</p>
-          <div class="obs-box" style="margin-top: 1.5rem;">
-            <p>💳 <strong>Sinal de 50%</strong> do valor do serviço para confirmação. O valor é abatido no total final.</p>
-            <p style="margin-top: 0.5rem;">⚠️ <strong>O sinal não é reembolsável</strong> em caso de desistência.</p>
-          </div>
-        </div>
-
-        <!-- Cancelamento -->
-        <div class="agenda-card reveal">
-          <span class="agenda-icon">⏰</span>
-          <h3>Cancelamento &amp; Atraso</h3>
-          <ul>
-            <li>Cancelamentos ou reagendamentos com mínimo de <strong>24h de antecedência</strong>.</li>
-            <li>Fora do prazo ou não comparecimento: <strong>sinal não devolvido</strong> e novo sinal necessário.</li>
-            <li>Atraso superior a <strong>15 minutos</strong>: atendimento cancelado e necessidade de reagendamento.</li>
-          </ul>
-        </div>
-
-        <!-- Pagamento -->
-        <div class="agenda-card reveal" style="grid-column: 1 / -1;">
-          <span class="agenda-icon">💳</span>
-          <h3>Formas de Pagamento</h3>
-          <div class="pagamento-chips">
-            <span class="chip">📱 PIX</span>
-            <span class="chip">💵 Dinheiro</span>
-            <span class="chip">💳 Cartão de Crédito (Aproximação)*</span>
-            <span class="chip">💳 Cartão de Débito (Aproximação)*</span>
-          </div>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">*Sujeito a taxas.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       CONTATO / CTA SECTION
-  ============================================================ -->
-  <section id="contato">
-    <div class="container">
-      <p class="section-label reveal">Pronta pra arrasar?</p>
-      <h2 class="contato-title reveal">Agende sua<br /><em>sessão agora</em></h2>
-      <p class="contato-sub reveal">Manda uma mensagem e garante seu horário. A diva que você é merece unhas à altura!</p>
-      <div class="reveal">
-        <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" class="whatsapp-big-btn">
-          <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/></svg>
-          Falar no WhatsApp
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer>
-    <div class="container">
-      <div class="footer-inner">
+      <div class="main-grid">
         <div>
-          <div class="footer-logo">Swag<span>Nails</span></div>
-          <p class="footer-tagline">Seja Autêntica. ✨</p>
+          <div class="panel">
+            <div class="panel-title">📁 Criar Cronograma</div>
+
+            <label class="field-label">Arquivo .ics (Opcional)</label>
+            <input type="file" id="icsFile" accept=".ics" class="field-input" />
+            <div class="alert">Para puxar dados automaticamente, importe do Google Calendar. Se deixar vazio, criará manualmente com horários "Disponível".</div>
+
+            <div class="two-col" style="margin-top:1rem;">
+              <div>
+                <label class="field-label">Data de início</label>
+                <input type="date" id="dateStart" class="field-input" />
+              </div>
+              <div>
+                <label class="field-label">Data de fim</label>
+                <input type="date" id="dateEnd" class="field-input" />
+              </div>
+            </div>
+
+            <div class="alert error" id="dateAlert" style="display:none;"></div>
+            <button class="btn btn-primary" id="btnProcess">💅 Gerar Cronograma</button>
+            <div id="processMsg"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">⚙️ Configurações</div>
+
+            <div class="two-col">
+              <div>
+                <label class="field-label">Início atendimento</label>
+                <input type="time" id="workStart" value="09:00" class="field-input" />
+              </div>
+              <div>
+                <label class="field-label">Fim atendimento</label>
+                <input type="time" id="workEnd" value="18:00" class="field-input" />
+              </div>
+            </div>
+
+            <label class="field-label">Intervalo entre horários</label>
+            <select id="slotInterval" class="field-input">
+              <option value="60">1 hora</option>
+              <option value="90">1h30</option>
+              <option value="120">2 horas</option>
+              <option value="180">3 horas</option>
+              <option value="300">5 horas</option>
+            </select>
+
+            <label class="field-label">WhatsApp (somente números)</label>
+            <input type="text" id="phoneNumber" value="554791437398" class="field-input" />
+
+            <div class="option-row">
+              <label class="option-chip"><input type="checkbox" id="showSabado" checked /> Incluir sábado</label>
+              <label class="option-chip"><input type="checkbox" id="showDomingo" /> Incluir domingo</label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">📤 Exportar</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-ui);">
+              Gera PNG em <strong style="color:var(--gold)">1080 × 1920 px</strong> — otimizado para Instagram Stories. Edite os textos na pré-visualização antes de exportar.
+            </p>
+            <button class="btn btn-export" id="btnExport" disabled>📸 Exportar como PNG</button>
+            <button class="btn btn-outline" id="btnReset" style="margin-top:0.6rem;">🔄 Limpar tudo</button>
+          </div>
         </div>
-        <div class="footer-col">
-          <h4>Navegação</h4>
-          <ul>
-            <li><a href="javascript:void(0)" data-target="sobre">Sobre</a></li>
-            <li><a href="javascript:void(0)" data-target="agendamento">Agendamento</a></li>
-            <li><a href="javascript:void(0)" data-target="contato">Contato</a></li>
-          </ul>
+
+        <div class="preview-panel">
+          <div class="panel" style="padding:1rem;">
+            <div class="panel-title">👁 Pré-visualização · Clique nos textos para editar</div>
+
+            <div class="preview-outer" id="previewOuter">
+              <div class="preview-inner" id="previewInner">
+                <div class="st-canvas" id="storiesCanvas">
+                  <div class="st-blob-tr"></div>
+                  <div class="st-blob-bl"></div>
+
+                  <div class="empty-state" id="emptyState">
+                    <div class="ico">💅</div>
+                    <p>Importe um .ics ou apenas configure as datas e clique em <strong>Gerar Cronograma</strong>.</p>
+                  </div>
+
+                  <div id="storiesContent" style="display:none; flex-direction:column; height:100%;">
+                    <div class="st-header">
+                      <div class="st-brand">Swag<span>Nails</span></div>
+                      <div class="st-tagline" contenteditable="true" id="edTagline">Agenda de Horários</div>
+                      <div class="st-ornament">✦ · · · ✦</div>
+                    </div>
+
+                    <div class="st-week">
+                      <div class="st-week-label" contenteditable="true" id="edWeekLabel">Disponibilidade</div>
+                      <div class="st-week-range" contenteditable="true" id="edWeekRange">—</div>
+                    </div>
+
+                    <div class="st-divider"></div>
+
+                    <div class="st-days" id="storiesDays"></div>
+
+                    <div class="st-footer">
+                      <div class="st-footer-div"></div>
+                      <div class="st-footer-cta" contenteditable="true" id="edFooterCta">Agende pelo WhatsApp</div>
+                      <div class="st-footer-phone" contenteditable="true" id="edFooterPhone">—</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-ui);margin-top:0.6rem;text-align:center;">
+              ✏️ Todos os textos são editáveis. Cores mudam ao digitar "Ocupado" ou "Disponível".
+            </p>
+          </div>
         </div>
-        <div class="footer-col">
-          <h4>Serviços</h4>
-          <ul>
-            <li><a href="javascript:void(0)" data-target="agendamento">Alongamento no molde F1</a></li>
-            <li><a href="javascript:void(0)" data-target="agendamento">Banho de Gel</a></li>
-            <li><a href="javascript:void(0)" data-target="agendamento">Blindagem</a></li>
-            <li><a href="javascript:void(0)" data-target="agendamento">Esmaltação em Gel</a></li>
-            <li><a href="javascript:void(0)" data-target="agendamento">Nail Art</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 SwagNails - Feito com <span class="footer-heart">♥</span> para divas autênticas.</p>
-        <p>
-          <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color=''">
-            WhatsApp
-          </a>
-        </p>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <!-- ============================================================
-       WHATSAPP FLOATING BUTTON
-  ============================================================ -->
-  <a href="https://wa.me/554791437398?text=Oi%20diva!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio"
-     target="_blank"
-     rel="noopener"
-     class="wpp-float"
-     aria-label="Fale pelo WhatsApp">
-    <svg viewBox="0 0 24 24">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-      <path d="M12.004 2C6.477 2 2 6.477 2 12c0 1.885.518 3.648 1.419 5.163L2 22l4.945-1.397A9.964 9.964 0 0012.004 22C17.531 22 22 17.523 22 12c0-5.52-4.469-10-9.996-10zm.001 18.18a8.18 8.18 0 01-4.17-1.143l-.299-.177-3.099.875.864-3.041-.197-.314a8.148 8.148 0 01-1.281-4.38c0-4.519 3.673-8.191 8.182-8.191 4.508 0 8.18 3.672 8.18 8.191 0 4.518-3.671 8.18-8.18 8.18z"/>
-    </svg>
-  </a>
-
-  <!-- ============================================================
-       JAVASCRIPT
-  ============================================================ -->
   <script>
-    /* ----- Smooth scroll via data-target (sem hash na URL) ----- */
+    /* ----- Smooth scroll via data-target ----- */
     document.addEventListener('click', function(e) {
       const link = e.target.closest('[data-target]');
       if (!link) return;
@@ -1283,7 +682,7 @@
     /* ----- Navbar scroll effect ----- */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
     });
 
     /* ----- Mobile menu ----- */
@@ -1291,19 +690,18 @@
     const mobileMenu  = document.getElementById('mobileMenu');
     const mobileClose = document.getElementById('mobileClose');
 
-    hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
-    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    if(hamburger) hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+    if(mobileClose) mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
 
     function closeMobileMenu() {
-      mobileMenu.classList.remove('open');
+      if(mobileMenu) mobileMenu.classList.remove('open');
     }
 
-    /* ----- Scroll reveal (Intersection Observer) ----- */
+    /* ----- Scroll reveal ----- */
     const reveals = document.querySelectorAll('.reveal, .reveal-left');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          // Stagger delay for grid children
           const delay = entry.target.closest('.formatos-grid, .preco-grid, .agendamento-grid')
             ? Array.from(entry.target.parentElement.children).indexOf(entry.target) * 100
             : 0;
@@ -1312,8 +710,402 @@
         }
       });
     }, { threshold: 0.12 });
-
     reveals.forEach(el => observer.observe(el));
+  </script>
+
+  <script>
+    /* ================================================================
+       HELPERS
+    ================================================================ */
+    const MONTHS_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const MONTHS_ABR  = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const DAYS_FULL   = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+
+    const pad   = n  => String(n).padStart(2,'0');
+    const fmtD  = d  => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const strip = d  => { const x=new Date(d); x.setHours(0,0,0,0); return x; };
+    const diffD = (a,b) => Math.round((b-a)/86400000);
+    const addM  = (d,m) => new Date(d.getTime()+m*60000);
+    const fmtT  = (h,m) => `${pad(h)}:${pad(m)}`;
+
+    /* ================================================================
+       ICS PARSER
+    ================================================================ */
+    function parseICS(text) {
+      const events = [];
+      const lines = text.replace(/\r\n /g,'').replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+      let cur = null;
+      for (const raw of lines) {
+        const l = raw.trim();
+        if (l === 'BEGIN:VEVENT') { cur = {}; }
+        else if (l === 'END:VEVENT') { if (cur?.start && cur?.end) events.push(cur); cur = null; }
+        else if (cur) {
+          if (l.startsWith('DTSTART')) { const v=l.split(':').slice(1).join(':'); cur.start=parseICSDate(v); }
+          if (l.startsWith('DTEND'))   { const v=l.split(':').slice(1).join(':'); cur.end  =parseICSDate(v); }
+          if (l.startsWith('SUMMARY:')) cur.summary = l.slice(8);
+        }
+      }
+      return events;
+    }
+
+    function parseICSDate(v) {
+      if (!v) return null;
+      v = v.trim();
+      if (/^\d{8}$/.test(v)) return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
+      const m = v.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/);
+      if (!m) return null;
+      return m[7]==='Z'
+        ? new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]))
+        : new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]);
+    }
+
+    /* ================================================================
+       COMPUTE SLOTS (Com correção de madrugada)
+    ================================================================ */
+    function computeSlots(events, startDate, endDate, wsH, wsM, weH, weM, intervalMins) {
+      const result = [];
+      let cur = strip(startDate);
+      const end = strip(endDate);
+      const inclDom = document.getElementById('showDomingo').checked;
+      const inclSab = document.getElementById('showSabado').checked;
+      while (cur <= end) {
+        const d = new Date(cur);
+        const dow = d.getDay();
+        if ((dow===0 && !inclDom) || (dow===6 && !inclSab)) { cur=new Date(cur.getTime()+86400000); continue; }
+
+        const dayData = { date: new Date(d), label: DAYS_FULL[dow], slots: [] };
+        let t = new Date(d); t.setHours(wsH, wsM, 0, 0);
+        let te = new Date(d); te.setHours(weH, weM, 0, 0);
+        // Se o fim for menor ou igual ao início (ex: 19:00 as 00:00), adiciona 1 dia no término
+        if (te <= t) {
+          te.setDate(te.getDate() + 1);
+        }
+
+        while (t < te) {
+          const tEnd = addM(t, intervalMins);
+          const busy = events.some(ev => ev.start && ev.end && ev.start < tEnd && ev.end > t);
+          dayData.slots.push({ time: fmtT(t.getHours(), t.getMinutes()), busy });
+          t = tEnd;
+        }
+
+        if (dayData.slots.length) result.push(dayData);
+        cur = new Date(cur.getTime()+86400000);
+      }
+      return result;
+    }
+
+    /* ================================================================
+       BUILD DAY ROW HTML
+    ================================================================ */
+    function buildDayHTML(day, editable) {
+      const ce = editable ? 'contenteditable="true"' : '';
+      const slots = day.slots.map(s => `
+        <div class="st-slot">
+          <div class="st-dot ${s.busy?'dot-busy':'dot-disp'}"></div>
+          <span class="st-time" ${ce}>${s.time}</span>
+          <span class="st-status ${s.busy?'busy':'disp'}" ${ce}>${s.busy?'Ocupado':'Disponível'}</span>
+        </div>`).join('');
+      return `
+        <div class="st-day">
+          <div class="st-day-label">
+            <div class="st-day-name" ${ce}>${day.label}</div>
+            <div class="st-day-date" ${ce}>${day.date.getDate()}/${pad(day.date.getMonth()+1)}</div>
+          </div>
+          <div class="st-day-slots">${slots}</div>
+        </div>`;
+    }
+
+    /* ================================================================
+       RENDER PREVIEW & DYNAMIC LAYOUT
+    ================================================================ */
+    function renderStories(days, startDate, endDate) {
+      const s = startDate, e = endDate;
+      document.getElementById('edWeekRange').textContent =
+        `${s.getDate()} ${MONTHS_ABR[s.getMonth()]} → ${e.getDate()} ${MONTHS_ABR[e.getMonth()]}`;
+
+      const phone = document.getElementById('phoneNumber').value.trim();
+      let phoneFmt = phone;
+      if (phone.startsWith('55') && phone.length >= 12) {
+        const ddd=phone.slice(2,4), num=phone.slice(4);
+        const p1=num.slice(0, num.length>8?5:4), p2=num.slice(p1.length);
+        phoneFmt = `+55 (${ddd}) ${p1}-${p2}`;
+      }
+      document.getElementById('edFooterPhone').textContent = phoneFmt;
+      document.getElementById('storiesDays').innerHTML = days.map(d => buildDayHTML(d, true)).join('');
+
+      const canvasEl = document.getElementById('storiesCanvas');
+      if (days.length <= 3) {
+        canvasEl.classList.add('st-layout-few');
+      } else {
+        canvasEl.classList.remove('st-layout-few');
+      }
+
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('storiesContent').style.display = 'flex';
+      document.getElementById('btnExport').disabled = false;
+
+      window._lastDays = days;
+      window._startDate = startDate;
+      window._endDate   = endDate;
+
+      updateScale();
+    }
+
+    /* ================================================================
+       SCALE PREVIEW
+    ================================================================ */
+    function updateScale() {
+      const outer = document.getElementById('previewOuter');
+      const inner = document.getElementById('previewInner');
+      if (!outer || !inner) return;
+      const w = outer.offsetWidth;
+      // Prevenção contra cálculo se o elemento estiver oculto (display: none)
+      if(w === 0) return;
+      const scale = w / 1080;
+      inner.style.transform = `scale(${scale})`;
+      outer.style.height = Math.round(1920 * scale) + 'px';
+    }
+
+    window.addEventListener('resize', updateScale);
+    window.addEventListener('load',   updateScale);
+
+    /* ================================================================
+       DATE DEFAULTS & VALIDATION
+    ================================================================ */
+    (function() {
+      const dateStart = document.getElementById('dateStart');
+      if(!dateStart) return;
+      const today = new Date();
+      const next6 = new Date(); next6.setDate(today.getDate()+6);
+      dateStart.value = fmtD(today);
+      document.getElementById('dateEnd').value   = fmtD(next6);
+    })();
+    function validateDates() {
+      const s = document.getElementById('dateStart').value;
+      const e = document.getElementById('dateEnd').value;
+      const alertEl = document.getElementById('dateAlert');
+      const btn = document.getElementById('btnProcess');
+      if (!s || !e) { alertEl.style.display='none'; btn.disabled=true; return false; }
+      const start=new Date(s+'T00:00:00'), end=new Date(e+'T00:00:00');
+      const d=diffD(start,end);
+      if (end < start) { alertEl.textContent='⚠️ A data de fim deve ser posterior ao início.'; alertEl.style.display='block'; btn.disabled=true; return false; }
+      if (d > 60) { alertEl.textContent=`⚠️ Intervalo máximo: 60 dias. Você selecionou ${d} dias.`; alertEl.style.display='block'; btn.disabled=true; return false; }
+      
+      alertEl.style.display='none';
+      btn.disabled = false; 
+      return true;
+    }
+
+    /* ================================================================
+       UI EVENTS & DYNAMIC COLORS
+    ================================================================ */
+    window._icsText = null;
+    if(document.getElementById('icsFile')) {
+      document.getElementById('icsFile').addEventListener('change', function(e) {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          window._icsText = ev.target.result;
+          document.getElementById('processMsg').innerHTML = `<div class="alert success">✅ Carregado: <strong>${file.name}</strong></div>`;
+          validateDates();
+        };
+        reader.readAsText(file);
+      });
+      document.getElementById('dateStart').addEventListener('change', validateDates);
+      document.getElementById('dateEnd').addEventListener('change', validateDates);
+
+      // Troca de cores automática ao digitar
+      document.getElementById('storiesDays').addEventListener('input', function(e) {
+        if (e.target.classList.contains('st-status')) {
+          const text = e.target.innerText.trim().toLowerCase();
+          const dotEl = e.target.parentElement.querySelector('.st-dot');
+          
+          e.target.classList.remove('busy', 'disp', 'neutral');
+          dotEl.classList.remove('dot-busy', 'dot-disp', 'dot-neutral');
+
+          if (text === 'ocupado') {
+            e.target.classList.add('busy');
+            dotEl.classList.add('dot-busy');
+          } else if (text === 'disponível' || text === 'disponivel') {
+            e.target.classList.add('disp');
+            dotEl.classList.add('dot-disp');
+          } else {
+            e.target.classList.add('neutral');
+            dotEl.classList.add('dot-neutral');
+          }
+        }
+      });
+      
+      document.getElementById('btnProcess').addEventListener('click', function() {
+        const s=document.getElementById('dateStart').value, e=document.getElementById('dateEnd').value;
+        const startDate=new Date(s+'T00:00:00'), endDate=new Date(e+'T23:59:59');
+        const [wsH,wsM]=document.getElementById('workStart').value.split(':').map(Number);
+        const [weH,weM]=document.getElementById('workEnd').value.split(':').map(Number);
+        const interval=parseInt(document.getElementById('slotInterval').value);
+
+        let events = [];
+        if (window._icsText) {
+          try { events = parseICS(window._icsText); }
+          catch(err) { document.getElementById('processMsg').innerHTML=`<div class="alert error">❌ Erro ao ler .ics: ${err.message}</div>`; return; }
+        }
+
+        const days = computeSlots(events, startDate, endDate, wsH, wsM, weH, weM, interval);
+        if (!days.length) { document.getElementById('processMsg').innerHTML='<div class="alert error">⚠️ Nenhum dia encontrado com as configurações atuais.</div>'; return; }
+
+        renderStories(days, startDate, new Date(e+'T00:00:00'));
+        
+        if (window._icsText) {
+          document.getElementById('processMsg').innerHTML = `<div class="alert success">✅ ${days.length} dia(s) gerado(s) pelo arquivo .ics!</div>`;
+        } else {
+          document.getElementById('processMsg').innerHTML = `<div class="alert success">✅ ${days.length} dia(s) gerado(s) manualmente!</div>`;
+        }
+      });
+      
+      document.getElementById('btnReset').addEventListener('click', function() {
+        window._icsText=null;
+        document.getElementById('icsFile').value='';
+        document.getElementById('processMsg').innerHTML='';
+        document.getElementById('dateAlert').style.display='none';
+        document.getElementById('btnExport').disabled=true;
+        document.getElementById('emptyState').style.display='flex';
+        document.getElementById('storiesContent').style.display='none';
+        document.getElementById('storiesDays').innerHTML='';
+        document.getElementById('storiesCanvas').classList.remove('st-layout-few');
+        validateDates();
+        updateScale();
+      });
+
+      /* ================================================================
+         EXPORT EM ALTA RESOLUÇÃO
+      ================================================================ */
+      document.getElementById('btnExport').addEventListener('click', async function() {
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Gerando imagem...';
+
+        try {
+          const tagline   = document.getElementById('edTagline')?.innerText    || 'Agenda de Horários';
+          const weekLabel = document.getElementById('edWeekLabel')?.innerText  || 'Disponibilidade';
+          const weekRange = document.getElementById('edWeekRange')?.innerText  || '';
+          const footerCta = document.getElementById('edFooterCta')?.innerText  || 'Agende pelo WhatsApp';
+          const phone     = document.getElementById('edFooterPhone')?.innerText|| '';
+
+          const dayEls = document.querySelectorAll('#storiesDays .st-day');
+          const daysData = Array.from(dayEls).map(dayEl => ({
+            name: dayEl.querySelector('.st-day-name')?.innerText || '',
+            date: dayEl.querySelector('.st-day-date')?.innerText || '',
+            slots: Array.from(dayEl.querySelectorAll('.st-slot')).map(sl => {
+              const statusEl = sl.querySelector('.st-status');
+              const dotEl = sl.querySelector('.st-dot');
+              
+              let statusClass = 'neutral';
+              if(statusEl.classList.contains('disp')) statusClass = 'disp';
+              if(statusEl.classList.contains('busy')) statusClass = 'busy';
+
+              let dotClass = 'dot-neutral';
+              if(dotEl.classList.contains('dot-disp')) dotClass = 'dot-disp';
+              if(dotEl.classList.contains('dot-busy')) dotClass = 'dot-busy';
+
+              return {
+                time:   sl.querySelector('.st-time')?.innerText   || '',
+                statusText: statusEl?.innerText || '',
+                statusClass: statusClass,
+                dotClass: dotClass
+              };
+            })
+          }));
+
+          const daysHTML = daysData.map(day => `
+            <div class="st-day">
+              <div class="st-day-label">
+                <div class="st-day-name">${day.name}</div>
+                <div class="st-day-date">${day.date}</div>
+              </div>
+              <div class="st-day-slots">
+                ${day.slots.map(s=>`
+                  <div class="st-slot">
+                    <div class="st-dot ${s.dotClass}"></div>
+                    <span class="st-time">${s.time}</span>
+                    <span class="st-status ${s.statusClass}">${s.statusText}</span>
+                  </div>`).join('')}
+              </div>
+            </div>`).join('');
+
+          const fewDaysClass = daysData.length <= 3 ? 'st-layout-few' : '';
+          const stage = document.getElementById('export-stage');
+          stage.innerHTML = `
+            <div class="st-canvas ${fewDaysClass}" id="exportRoot" style="width:1080px;height:1920px;position:relative;overflow:hidden;">
+              <div class="st-blob-tr"></div>
+              <div class="st-blob-bl"></div>
+              <div style="display:flex;flex-direction:column;height:100%;">
+
+                <div class="st-header">
+                  <div class="st-brand">Swag<span>Nails</span></div>
+                  <div class="st-tagline">${tagline}</div>
+                  <div class="st-ornament">✦ · · · ✦</div>
+                </div>
+
+                <div class="st-week">
+                  <div class="st-week-label">${weekLabel}</div>
+                  <div class="st-week-range">${weekRange}</div>
+                </div>
+
+                <div class="st-divider"></div>
+
+                <div class="st-days">${daysHTML}</div>
+
+                <div class="st-footer">
+                  <div class="st-footer-div"></div>
+                  <div class="st-footer-cta">${footerCta}</div>
+                  <div class="st-footer-phone">${phone}</div>
+                </div>
+
+              </div>
+            </div>`;
+
+          const exportRoot = document.getElementById('exportRoot');
+          await new Promise(r => setTimeout(r, 300));
+
+          const canvas = await html2canvas(exportRoot, {
+            width:           1080,
+            height:          1920,
+            scale:           2,
+            useCORS:         true,
+            allowTaint:      true,
+            backgroundColor: '#1a0009',
+            logging:         false,
+            windowWidth:     1080,
+            windowHeight:    1920,
+            x: 0,
+            y: 0,
+            scrollX: 0,
+            scrollY: 0
+          });
+
+          stage.innerHTML = ''; 
+
+          const out = document.createElement('canvas');
+          out.width  = 1080;
+          out.height = 1920;
+          const ctx  = out.getContext('2d');
+          ctx.drawImage(canvas, 0, 0, 1080, 1920);
+
+          const link = document.createElement('a');
+          link.download = `swagnails-agenda-${new Date().toISOString().slice(0,10)}.png`;
+          link.href = out.toDataURL('image/png', 1.0);
+          link.click();
+
+          btn.innerHTML = '✅ Imagem exportada!';
+          setTimeout(() => { btn.innerHTML='📸 Exportar como PNG'; btn.disabled=false; }, 2500);
+
+        } catch(err) {
+          console.error('Export error:', err);
+          document.getElementById('export-stage').innerHTML = '';
+          btn.innerHTML = '❌ Erro — veja o console';
+          setTimeout(() => { btn.innerHTML='📸 Exportar como PNG'; btn.disabled=false; }, 3000);
+        }
+      });
+    }
   </script>
 </body>
 </html>
