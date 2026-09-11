@@ -15,7 +15,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   
   <style>
     /* ============================================================
@@ -108,19 +108,138 @@
     .hero-ring:nth-child(3) { width: 1200px; height: 1200px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: ringPulse 6s ease-in-out 2s infinite; }
     @keyframes ringPulse { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.04); } }
     
-    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-content { 
+      position: relative; 
+      z-index: 1; 
+      max-width: 800px; 
+      width: 100%; /* Ajuste adicionado */
+    }
+    
+    /* Configuração da Logo no Hero */
+    .hero-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem auto;
+      display: block;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+      box-shadow: 0 10px 30px rgba(176,26,78,0.2);
+      will-change: transform; /* Ajuste adicionado */
+      backface-visibility: hidden; /* Ajuste adicionado */
+      -webkit-backface-visibility: hidden; /* Ajuste adicionado */
+    }
+
     .hero-eyebrow { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
     .hero-title { font-family: var(--font-display); font-size: clamp(4.5rem, 14vw, 10rem); font-weight: 900; line-height: 0.9; color: var(--white); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; text-shadow: 0 0 80px rgba(176,26,78,0.4); }
+    
+    /* Kinetic Text */
+    .kinetic-title {
+      display: flex;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      justify-content: center;
+      align-items: center; /* Alinha no centro vertical */
+      width: 100%;
+      max-width: 100%;
+      height: 1.2em; /* TRAVA A ALTURA AQUI PARA NÃO TREMER A TELA */
+      --text-stroke-width: calc(1em * 125 / 6000);
+      --hover-padding: calc(1em / 16);
+      contain: layout; /* Ajuste adicionado */
+    }
+    .kinetic-letter {
+      display: inline-block;
+      font-weight: 700;
+      will-change: font-weight, -webkit-text-stroke-width, padding;
+      -webkit-text-stroke-color: transparent;
+      -webkit-text-stroke-width: var(--text-stroke-width);
+      transition: font-weight 0.4s, -webkit-text-stroke-color 0.4s, padding 0.4s;
+    }
+    .kinetic-letter:hover {
+      padding-inline: var(--hover-padding);
+      font-weight: 900;
+      -webkit-text-stroke-color: currentColor;
+      -webkit-text-stroke-width: calc(var(--text-stroke-width) * 2);
+    }
+    .kinetic-letter:hover + .kinetic-letter {
+      padding-inline: var(--hover-padding);
+      font-weight: 850;
+    }
+    .kinetic-letter:hover + .kinetic-letter + .kinetic-letter {
+      font-weight: 780;
+    }
+    .kinetic-letter:has(+ .kinetic-letter:hover) {
+      padding-inline: var(--hover-padding);
+      font-weight: 850;
+    }
+    .kinetic-letter:has(+ .kinetic-letter + .kinetic-letter:hover) {
+      font-weight: 780;
+    }
+
     .hero-tagline { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.4rem); color: var(--gold); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; letter-spacing: 0.05em; }
     .hero-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
     
-
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
     #sobre { padding: 8rem 0; position: relative; text-align: center; }
     #sobre .container { display: flex; flex-direction: column; align-items: center; max-width: 800px; gap: 2rem; }
     .sobre-text p { font-size: 1.15rem; color: var(--light); margin-bottom: 1.5rem; line-height: 1.9; }
     .sobre-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(176,26,78,0.2); border: 1px solid rgba(176,26,78,0.4); border-radius: 50px; padding: 0.4rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold-lite); margin-bottom: 1.5rem; }
+
+    /* ============================================================
+       CSS - CARROSSEL SCROLL (GALERIA)
+    ============================================================ */
+    #galeria { padding-top: 4rem; position: relative; }
+    .scroll-mestre {
+      height: 400vh;
+      position: relative;
+      width: 100%;
+    }
+    .container-fixo {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .trilha-horizontal {
+      display: flex;
+      gap: 30px;
+      padding: 0 5vw;
+      width: max-content;
+      will-change: transform;
+    }
+    
+    .item-scroll {
+      flex: 0 0 70vw; 
+      height: 45vh;   
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(145,18,62,0.25), rgba(74,0,26,0.4));
+      border: 1px solid rgba(212,160,160,0.12);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+    @media (min-width: 900px) {
+      .item-scroll {
+        flex: 0 0 35vw; 
+        height: 55vh;   
+        gap: 50px;
+      }
+    }
+    
+    .item-scroll img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) brightness(0.95);
+      transition: filter 0.4s;
+    }
+    .item-scroll:hover img {
+      filter: saturate(1.1) brightness(1);
+    }
 
     #formatos { padding: 5rem 0; }
     .formatos-img-wrap { margin-top: 3rem; display: flex; justify-content: center; }
@@ -154,17 +273,71 @@
 
     #pagamentos { padding: 8rem 0; background: linear-gradient(180deg, rgba(145,18,62,0.15), transparent); }
     #pagamentos::before { content: ''; display: block; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent); margin-bottom: 8rem; margin-top: -8rem; }
-    .agendamento-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-top: 3rem; max-width: 700px; margin-inline: auto; }
-    .agenda-card { background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5)); border: 1px solid rgba(212,160,160,0.12); border-radius: 12px; padding: 2.5rem; transition: var(--transition); text-align: center; }
-    .agenda-card:hover { border-color: rgba(212,160,160,0.25); transform: translateY(-4px); }
-    .agenda-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
-    .agenda-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); margin-bottom: 1rem; }
-    .agenda-card p, .agenda-card li { font-size: 0.98rem; color: var(--light); line-height: 1.8; }
-    .agenda-card ul { list-style: none; padding: 0; text-align: left; }
-    .agenda-card ul li { padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
-    .agenda-card ul li::before { content: '◆'; position: absolute; left: 0; color: var(--cta); font-size: 0.5rem; top: 0.55rem; }
+    .agendamento-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-top: 3rem; max-width: 700px; margin-inline: auto; perspective: 1600px; }
+    
+    /* ============================================================
+       COMET CARD (ACETERNITY UI) - PAGAMENTOS
+    ============================================================ */
+    .comet-card-container { perspective: 1200px; transform-style: preserve-3d; will-change: transform; width: 100%; max-width: 700px; margin: 0 auto; }
+    .comet-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5));
+      border: 1px solid rgba(212,160,160,0.12);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .comet-card:hover {
+      border-color: rgba(212,160,160,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+    
+    .comet-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,160,160,0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 1;
+    }
+    .comet-card:hover .comet-glare { opacity: 1; }
+    
+    .comet-card-content {
+      position: relative;
+      z-index: 2;
+      transform-style: preserve-3d;
+    }
+    .comet-card-content > * {
+      will-change: transform;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    /* Elementos saltando em 3D no hover */
+    .comet-card:hover .comet-card-content .agenda-icon { transform: translateZ(50px); }
+    .comet-card:hover .comet-card-content h3 { transform: translateZ(40px); }
+    .comet-card:hover .comet-card-content .pagamento-chips { transform: translateZ(30px); }
+    .comet-card:hover .comet-card-content p { transform: translateZ(20px); }
+
+    .agenda-icon { width: 2.2rem; height: 2.2rem; margin: 0 auto 1rem; display: block; color: var(--gold); }
+    .comet-card-content h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); margin-bottom: 1rem; }
+    .comet-card-content p, .comet-card-content li { font-size: 0.98rem; color: var(--light); line-height: 1.8; }
+    .comet-card-content ul { list-style: none; padding: 0; text-align: left; }
+    .comet-card-content ul li { padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
+    .comet-card-content ul li::before { content: '◆'; position: absolute; left: 0; color: var(--cta); font-size: 0.5rem; top: 0.55rem; }
+    
     .pagamento-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1rem; }
-    .chip { background: rgba(145,18,62,0.35); border: 1px solid rgba(212,160,160,0.2); border-radius: 50px; padding: 0.35rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; color: var(--gold-lite); letter-spacing: 0.05em; }
+    .chip { display: inline-flex; align-items: center; gap: 0.45rem; background: rgba(145,18,62,0.35); border: 1px solid rgba(212,160,160,0.2); border-radius: 50px; padding: 0.35rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; color: var(--gold-lite); letter-spacing: 0.05em; }
+    .chip-icon { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--gold); }
+
+    /* Respeita quem prefere menos movimento na tela */
+    @media (prefers-reduced-motion: reduce) {
+      .comet-card, .comet-card-content > * { transform: none !important; transition: none !important; }
+    }
 
     #contato { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
     #contato::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(176,26,78,0.2), transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
@@ -177,7 +350,9 @@
     .whatsapp-big-btn:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 16px 40px rgba(176,26,78,0.6); }
     .whatsapp-icon { width: 28px; height: 28px; fill: white; }
 
-    footer { background: rgba(0,0,0,0.3); border-top: 1px solid rgba(212,160,160,0.08); padding: 4rem 0 2rem; }
+    footer { position: relative; overflow: hidden; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(212,160,160,0.08); padding: 4rem 0 2rem; }
+    
+    footer .container { position: relative; z-index: 1; }
     .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
     .footer-logo { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 1rem; }
     .footer-logo span { color: var(--gold); }
@@ -349,26 +524,86 @@
       .policy-checkbox-wrapper input[type="checkbox"] { width: 22px; height: 22px; }
       .btn-agenda { width: 100%; font-size: 1rem; padding: 1rem 2rem; }
     }
-  </style>
+  
+    /* ============================================================
+       ANIMAÇÕES DE TRANSIÇÃO DE ABAS
+    ============================================================ */
+    @keyframes pageFadeIn {
+      0% { opacity: 0; transform: translateY(15px); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    @keyframes pageFadeOut {
+      0% { opacity: 1; transform: translateY(0); filter: blur(0); }
+      100% { opacity: 0; transform: translateY(-15px); filter: blur(4px); }
+    }
+</style>
 </head>
 <body>
 
   <script>
-    function checkAppRoute() {
-      const hash = window.location.hash;
+    let currentHash = window.location.hash;
+    let isNavigating = false;
+
+    function checkAppRoute(event) {
+      if (isNavigating) return;
+      
+      const targetHash = window.location.hash;
       const mainSite = document.getElementById('main-site');
       const policyPage = document.getElementById('policy-page');
       
-      if (hash === '#agendar') {
-        if(mainSite) mainSite.style.display = 'none';
-        if(policyPage) policyPage.style.display = 'block';
-        window.scrollTo(0,0);
-        document.title = 'Política de Agendamento – SwagNails';
-      } else {
-        if(mainSite) mainSite.style.display = 'block';
-        if(policyPage) policyPage.style.display = 'none';
-        document.title = 'SwagNails – Seja Autêntica';
+      const isPolicyTarget = targetHash === '#agendar';
+      const animCurve = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      
+      if (!event || event.type === 'DOMContentLoaded') {
+        if (isPolicyTarget) {
+          if(mainSite) mainSite.style.display = 'none';
+          if(policyPage) {
+             policyPage.style.display = 'block';
+             policyPage.style.animation = `pageFadeIn 0.8s ${animCurve} forwards`;
+             setTimeout(() => policyPage.style.animation = '', 850);
+          }
+          document.title = 'Política de Agendamento – SwagNails';
+        } else {
+          if(policyPage) policyPage.style.display = 'none';
+          if(mainSite) {
+             mainSite.style.display = 'block';
+             mainSite.style.animation = `pageFadeIn 0.8s ${animCurve} forwards`;
+             setTimeout(() => mainSite.style.animation = '', 850);
+          }
+          document.title = 'SwagNails – Seja Autêntica';
+        }
+        currentHash = targetHash;
+        return;
       }
+
+      if (currentHash === targetHash) return;
+      
+      isNavigating = true;
+      const currentPage = (currentHash === '#agendar') ? policyPage : mainSite;
+      const nextPage = isPolicyTarget ? policyPage : mainSite;
+
+      if (currentPage) {
+         currentPage.style.animation = `pageFadeOut 0.4s ${animCurve} forwards`;
+      }
+
+      setTimeout(() => {
+        if (currentPage) currentPage.style.display = 'none';
+        
+        if (nextPage) {
+           nextPage.style.display = 'block';
+           nextPage.style.animation = `pageFadeIn 0.5s ${animCurve} forwards`;
+        }
+        
+        window.scrollTo(0, 0);
+        document.title = isPolicyTarget ? 'Política de Agendamento – SwagNails' : 'SwagNails – Seja Autêntica';
+        currentHash = targetHash;
+        
+        setTimeout(() => {
+           if (nextPage) nextPage.style.animation = '';
+           isNavigating = false;
+        }, 550);
+        
+      }, 350); 
     }
 
     window.addEventListener('hashchange', checkAppRoute);
@@ -404,8 +639,10 @@
       <div class="hero-ring"></div>
 
       <div class="hero-content">
+        <!-- Logo atualizada para .png -->
+        <img src="./assets/LogoSwagNails.png" alt="Logo SwagNails" class="hero-logo">
         <p class="hero-eyebrow">✦ Nail Designer ✦</p>
-        <h1 class="hero-title">SwagNails</h1>
+        <h1 class="hero-title kinetic-title" data-kinetic-text="SwagNails"></h1>
         <p class="hero-tagline">Seja Autêntica.</p>
         <div class="hero-cta-group">
           <a href="#agendar" class="btn btn-primary">
@@ -413,7 +650,6 @@
           </a>
         </div>
       </div>
-
 
     </section>
 
@@ -433,19 +669,72 @@
       </div>
     </section>
 
+    <section id="galeria">
+      <div class="container" style="text-align: center; margin-bottom: 2rem;">
+        <p class="section-label reveal">Portfólio</p>
+        <h2 class="section-title reveal">Trabalhos <em>recentes</em></h2>
+      </div>
+      <div class="scroll-mestre" id="area-scroll">
+        <div class="container-fixo">
+          <div class="trilha-horizontal" id="trilha">
+            
+            <div class="item-scroll">
+              <img src="./assets/AltNails1.jpeg" alt="Trabalho SwagNails 1">
+            </div>
+            <div class="item-scroll">
+              <img src="./assets/AltNails2.jpeg" alt="Trabalho SwagNails 2">
+            </div>
+            <div class="item-scroll">
+              <img src="./assets/AltNails3.jpeg" alt="Trabalho SwagNails 3">
+            </div>
+            <div class="item-scroll">
+              <img src="./assets/AltNails4.jpeg" alt="Trabalho SwagNails 4">
+            </div>
+            <div class="item-scroll">
+              <img src="./assets/AltNails5.jpeg" alt="Trabalho SwagNails 5">
+            </div>
+            <div class="item-scroll">
+              <img src="./assets/AltNails6.jpeg" alt="Trabalho SwagNails 6">
+            </div>
+    
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="pagamentos">
       <div class="container">
         <div class="agendamento-grid">
-          <div class="agenda-card reveal">
-            <span class="agenda-icon">💳</span>
-            <h3>Formas de Pagamento</h3>
-            <div class="pagamento-chips">
-              <span class="chip">📱 PIX</span>
-              <span class="chip">💵 Dinheiro</span>
-              <span class="chip">💳 Cartão de Crédito (Aproximação)*</span>
-              <span class="chip">💳 Cartão de Débito (Aproximação)*</span>
+          <div class="comet-card-container reveal">
+            <div class="comet-card" id="cometCard">
+              <div class="comet-glare" id="cometGlare"></div>
+              <div class="comet-card-content">
+                <svg class="agenda-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path>
+                  <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path>
+                </svg>
+                <h3>Formas de Pagamento</h3>
+                <div class="pagamento-chips">
+                  <span class="chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+                    PIX
+                  </span>
+                  <span class="chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="12" x="2" y="6" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+                    Dinheiro
+                  </span>
+                  <span class="chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    Cartão de Crédito (Aproximação)*
+                  </span>
+                  <span class="chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    Cartão de Débito (Aproximação)*
+                  </span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">*Sujeito a taxas.</p>
+              </div>
             </div>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">*Sujeito a taxas.</p>
           </div>
         </div>
       </div>
@@ -513,8 +802,6 @@
     </a>
   </div>
 
-
-  <!-- PÁGINA DE POLÍTICA DE AGENDAMENTO -->
   <div id="policy-page">
     <div class="policy-container">
       <a href="#" class="policy-back">← Voltar ao site</a>
@@ -552,7 +839,54 @@
   </div>
 
   <script>
-    /* ----- Política de Agendamento Checkbox ----- */
+    var kineticTitles = document.querySelectorAll('[data-kinetic-text]');
+    kineticTitles.forEach(function (el) {
+      var text = el.getAttribute('data-kinetic-text');
+      el.setAttribute('aria-label', text);
+      el.innerHTML = text.split('').map(function (letter) {
+        var char = letter === ' ' ? '&nbsp;' : letter;
+        return '<span class="kinetic-letter" aria-hidden="true">' + char + '</span>';
+      }).join('');
+    });
+
+    function fitKineticTitle(el) {
+      var viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      if (!viewportWidth) return;
+
+      var probeSize = 100;
+      el.style.fontSize = probeSize + 'px';
+      var naturalWidth = el.scrollWidth;
+      if (!naturalWidth) return;
+
+      var margemLateral = 0.90;  
+      var reservaParaHover = 0.93; 
+      var availableWidth = viewportWidth * margemLateral * reservaParaHover;
+      var newSize = probeSize * (availableWidth / naturalWidth);
+
+      var minSize = 72;  
+      var maxSize = 160; 
+      newSize = Math.max(minSize, Math.min(maxSize, newSize));
+
+      el.style.fontSize = newSize + 'px';
+    }
+
+    function fitAllKineticTitles() {
+      kineticTitles.forEach(fitKineticTitle);
+    }
+
+    fitAllKineticTitles();
+    window.addEventListener('resize', fitAllKineticTitles);
+    window.addEventListener('orientationchange', fitAllKineticTitles);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitAllKineticTitles); 
+    }
+    if (window.ResizeObserver) {
+      var kineticResizeObserver = new ResizeObserver(fitAllKineticTitles);
+      kineticTitles.forEach(function (el) {
+        if (el.parentElement) kineticResizeObserver.observe(el.parentElement);
+      });
+    }
+
     document.getElementById('policy-checkbox').addEventListener('change', function() {
       const btn = document.getElementById('btn-ir-agenda');
       if(this.checked) {
@@ -562,7 +896,6 @@
       }
     });
 
-    /* ----- Smooth scroll via data-target ----- */
     document.addEventListener('click', function(e) {
       const link = e.target.closest('[data-target]');
       if (!link) return;
@@ -572,13 +905,11 @@
       target.scrollIntoView({ behavior: 'smooth' });
     });
 
-    /* ----- Navbar scroll effect ----- */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    /* ----- Mobile menu ----- */
     const hamburger   = document.getElementById('hamburger');
     const mobileMenu  = document.getElementById('mobileMenu');
     const mobileClose = document.getElementById('mobileClose');
@@ -597,7 +928,6 @@
       document.body.style.overflow = '';
     }
 
-    /* ----- Scroll reveal ----- */
     const reveals = document.querySelectorAll('.reveal, .reveal-left');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
@@ -611,6 +941,69 @@
       });
     }, { threshold: 0.12 });
     reveals.forEach(el => observer.observe(el));
+    
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var cometContainer = document.querySelector('.comet-card-container');
+    var cometCard = document.getElementById('cometCard');
+    var cometGlare = document.getElementById('cometGlare');
+
+    if (cometContainer && cometCard && !prefersReducedMotion) {
+      cometContainer.addEventListener('mousemove', function(e) {
+        var rect = cometContainer.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+
+        var rotateX = ((y - centerY) / centerY) * -17.5; 
+        var rotateY = ((x - centerX) / centerX) * 17.5;
+
+        cometCard.style.transition = 'transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        cometCard.style.transform = 'rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
+        
+        if (cometGlare) {
+          cometGlare.style.setProperty('--mouse-x', x + 'px');
+          cometGlare.style.setProperty('--mouse-y', y + 'px');
+        }
+      });
+
+      cometContainer.addEventListener('mouseleave', function() {
+        cometCard.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        cometCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        if (cometGlare) {
+          cometGlare.style.setProperty('--mouse-x', '50%');
+          cometGlare.style.setProperty('--mouse-y', '50%');
+        }
+      });
+    }
+
+    const areaScroll = document.getElementById('area-scroll');
+    const trilha = document.getElementById('trilha');
+    let posicaoAtual = 0;
+    let posicaoAlvo = 0;
+
+    function animarSuavemente() {
+      if(!areaScroll || !trilha) return;
+      posicaoAtual += (posicaoAlvo - posicaoAtual) * 0.08;
+      trilha.style.transform = `translateX(-${posicaoAtual}px)`;
+      requestAnimationFrame(animarSuavemente);
+    }
+
+    if(areaScroll && trilha) {
+      window.addEventListener('scroll', () => {
+        const topoArea = areaScroll.getBoundingClientRect().top;
+        const alturaRolagem = areaScroll.offsetHeight - window.innerHeight;
+        
+        let progresso = (topoArea * -1) / alturaRolagem;
+        if (progresso < 0) progresso = 0;
+        if (progresso > 1) progresso = 1;
+
+        const maxDeslocamento = trilha.scrollWidth - window.innerWidth + (window.innerWidth * 0.1); 
+        posicaoAlvo = progresso * maxDeslocamento; 
+      });
+      animarSuavemente();
+    }
   </script>
 </body>
 </html>
