@@ -141,7 +141,7 @@
     .sobre-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(176,26,78,0.2); border: 1px solid rgba(176,26,78,0.4); border-radius: 50px; padding: 0.4rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold-lite); margin-bottom: 1.5rem; }
 
     /* ============================================================
-       CSS - CARROSSEL GALERIA ACETERNITY UI STYLE
+       CSS - CARROSSEL GALERIA ACETERNITY UI STYLE INFINITO
     ============================================================ */
     #galeria { padding-top: 4rem; position: relative; }
     .carousel-wrapper {
@@ -150,7 +150,8 @@
       max-width: 1400px;
       margin: 0 auto;
       overflow: hidden;
-      padding: 2rem 0 0 0;
+      /* Padding inferior estendido para dar distância aos botões e borda da seção */
+      padding: 2rem 0 4rem 0;
     }
     .carousel-container {
       overflow: hidden; 
@@ -161,8 +162,8 @@
       position: relative;
       gap: 20px;
       width: max-content;
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-      padding: 2rem 5vw 5rem 5vw; /* Aumentado padding bottom para não cortar a sombra */
+      /* O transform agora é dinâmico (com/sem transição via JS) para o loop perfeito */
+      padding: 2rem 5vw 4rem 5vw; 
       align-items: center;
     }
     .carousel-item {
@@ -189,7 +190,7 @@
       opacity: 1;
       transform: scale(1);
       border-color: rgba(212,160,160,0.4);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.4); /* Sombra que precisa de espaço inferior */
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
       z-index: 2;
     }
     .carousel-item img {
@@ -197,7 +198,7 @@
       height: 100%;
       object-fit: cover;
       transition: transform 0.6s ease;
-      pointer-events: none; /* Evita bug de clique ao arrastar no celular */
+      pointer-events: none; 
     }
     .carousel-item.active:hover img {
       transform: scale(1.05);
@@ -206,7 +207,8 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
-      margin-top: 0.5rem;
+      /* Margem superior ajustada para centralizar o espaço perfeitamente */
+      margin-top: 1.5rem; 
     }
     .carousel-btn {
       background: rgba(145,18,62,0.3);
@@ -223,7 +225,6 @@
       -webkit-tap-highlight-color: transparent;
     }
     
-    /* Efeito de hover restrito apenas para mouse */
     @media (hover: hover) {
       .carousel-btn:hover {
         background: var(--cta);
@@ -234,7 +235,6 @@
       }
     }
     
-    /* Efeito de clique rápido e fluido para celular/mouse */
     .carousel-btn:active {
       background: var(--cta);
       color: var(--white);
@@ -655,12 +655,13 @@
       <div class="carousel-wrapper reveal">
         <div class="carousel-container" id="carouselContainer">
           <div class="carousel-track" id="carouselTrack">
-            <div class="carousel-item" onclick="setCarouselIndex(0)"><img src="./assets/AltNails1.jpeg" alt="Trabalho SwagNails 1"></div>
-            <div class="carousel-item" onclick="setCarouselIndex(1)"><img src="./assets/AltNails2.jpeg" alt="Trabalho SwagNails 2"></div>
-            <div class="carousel-item" onclick="setCarouselIndex(2)"><img src="./assets/AltNails3.jpeg" alt="Trabalho SwagNails 3"></div>
-            <div class="carousel-item" onclick="setCarouselIndex(3)"><img src="./assets/AltNails4.jpeg" alt="Trabalho SwagNails 4"></div>
-            <div class="carousel-item" onclick="setCarouselIndex(4)"><img src="./assets/AltNails5.jpeg" alt="Trabalho SwagNails 5"></div>
-            <div class="carousel-item" onclick="setCarouselIndex(5)"><img src="./assets/AltNails6.jpeg" alt="Trabalho SwagNails 6"></div>
+            <!-- As imagens estáticas (o JS fará a clonagem nas laterais dinamicamente) -->
+            <div class="carousel-item"><img src="./assets/AltNails1.jpeg" alt="Trabalho SwagNails 1"></div>
+            <div class="carousel-item"><img src="./assets/AltNails2.jpeg" alt="Trabalho SwagNails 2"></div>
+            <div class="carousel-item"><img src="./assets/AltNails3.jpeg" alt="Trabalho SwagNails 3"></div>
+            <div class="carousel-item"><img src="./assets/AltNails4.jpeg" alt="Trabalho SwagNails 4"></div>
+            <div class="carousel-item"><img src="./assets/AltNails5.jpeg" alt="Trabalho SwagNails 5"></div>
+            <div class="carousel-item"><img src="./assets/AltNails6.jpeg" alt="Trabalho SwagNails 6"></div>
           </div>
         </div>
         <div class="carousel-controls">
@@ -871,93 +872,131 @@
     reveals.forEach(el => observer.observe(el));
     
     // ==========================================
-    // LÓGICA DO CARROSSEL DE IMAGENS (SWIPE INCLUSO)
+    // LÓGICA DO CARROSSEL DE IMAGENS INFINITO (SWIPE INCLUSO)
     // ==========================================
     const track = document.getElementById('carouselTrack');
-    const items = Array.from(document.querySelectorAll('.carousel-item'));
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    let currentIndex = 0;
-
-    function updateCarousel() {
-      if (!track || items.length === 0) return;
-      
-      items.forEach((item, index) => {
-        item.classList.remove('active');
-        if (index === currentIndex) {
-          item.classList.add('active');
-        }
-      });
-
-      const activeItem = items[currentIndex];
-      const containerWidth = track.parentElement.offsetWidth;
-      // Calcula o centro baseado na largura total e offset do item
-      const itemCenter = activeItem.offsetLeft + (activeItem.offsetWidth / 2);
-      const transformX = (containerWidth / 2) - itemCenter;
-
-      track.style.transform = `translateX(${transformX}px)`;
-    }
     
-    function setCarouselIndex(index) {
+    if (track) {
+      const originalItems = Array.from(document.querySelectorAll('.carousel-item'));
+      const numOriginals = originalItems.length;
+      
+      // Número de itens clonados em cada lado (2 garante segurança na visão pra celular e desktop)
+      const clonesCount = 2;
+      
+      // 1. Clona os últimos itens e insere no Início
+      for (let i = numOriginals - clonesCount; i < numOriginals; i++) {
+        let clone = originalItems[i].cloneNode(true);
+        track.insertBefore(clone, track.firstChild);
+      }
+      
+      // 2. Clona os primeiros itens e insere no Final
+      for (let i = 0; i < clonesCount; i++) {
+        let clone = originalItems[i].cloneNode(true);
+        track.appendChild(clone);
+      }
+      
+      // Todos os itens reais e clonados juntos
+      const allItems = Array.from(document.querySelectorAll('.carousel-item'));
+      
+      // O índice inicial verdadeiro agora se desloca pelo número de clones inseridos na frente
+      let currentIndex = clonesCount;
+      let isAnimating = false;
+
+      function updateCarousel(instant = false) {
+        if (instant) {
+          track.style.transition = 'none';
+        } else {
+          track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+        }
+
+        allItems.forEach((item, index) => {
+          item.classList.remove('active');
+          if (index === currentIndex) {
+            item.classList.add('active');
+          }
+        });
+
+        const activeItem = allItems[currentIndex];
+        const containerWidth = track.parentElement.offsetWidth;
+        const itemCenter = activeItem.offsetLeft + (activeItem.offsetWidth / 2);
+        const transformX = (containerWidth / 2) - itemCenter;
+
+        track.style.transform = `translateX(${transformX}px)`;
+      }
+      
+      function slideTo(index) {
+        if (isAnimating) return;
         currentIndex = index;
         updateCarousel();
-    }
+        isAnimating = true;
+        
+        // Timer baseado na duração do transition (0.6s)
+        setTimeout(() => {
+          isAnimating = false;
+          
+          // Se chegou em um clone na extrema esquerda, reseta silenciosamente pro real
+          if (currentIndex < clonesCount) {
+            currentIndex = currentIndex + numOriginals;
+            updateCarousel(true); // 'true' desativa a transição do salto
+          } 
+          // Se chegou em um clone na extrema direita, reseta silenciosamente pro real
+          else if (currentIndex >= numOriginals + clonesCount) {
+            currentIndex = currentIndex - numOriginals;
+            updateCarousel(true);
+          }
+        }, 600); 
+      }
 
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
-        updateCarousel();
+      // Adicionando clicks nas imagens para focalizar a que o usuário clicar
+      allItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          if (index !== currentIndex) slideTo(index);
+        });
       });
-      nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-        updateCarousel();
-      });
-      window.addEventListener('resize', updateCarousel);
-      // Timeout inicial para garantir que o estilo carregou antes do cálculo
-      setTimeout(updateCarousel, 150); 
-    }
 
-    // Variáveis de controle para o Touch/Swipe
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
+      if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => slideTo(currentIndex - 1));
+        nextBtn.addEventListener('click', () => slideTo(currentIndex + 1));
+        window.addEventListener('resize', () => updateCarousel(true));
+        
+        // Timeout para garantir que o CSS e fontes carregaram o tamanho exato da tela antes do cálculo matemático
+        setTimeout(() => updateCarousel(true), 150); 
+      }
 
-    if (track) {
-      // Quando o usuário toca na tela
+      // Lógica do Swipe Otimizada com prevenção de bug (ignora toque enquanto desliza)
+      let startX = 0;
+      let currentX = 0;
+      let isDragging = false;
+
       track.addEventListener('touchstart', (e) => {
+        if (isAnimating) return; 
         startX = e.touches[0].clientX;
         isDragging = true;
       }, { passive: true });
 
-      // Durante o arrasto do dedo na tela
       track.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
         currentX = e.touches[0].clientX;
       }, { passive: true });
 
-      // Quando o usuário tira o dedo da tela
       track.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
         
-        // Se currentX for zero, foi só um toque curto (tap), não executa swipe
         if (currentX === 0) return;
 
         const diffX = startX - currentX;
-        const limiteSwipe = 40; // Quantidade de pixels mínima para validar a passada de imagem
+        const limiteSwipe = 40; 
 
         if (Math.abs(diffX) > limiteSwipe) {
           if (diffX > 0) {
-            // Deslizou para a Esquerda -> Avança o card
-            currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+            slideTo(currentIndex + 1); // Deslizou pra Esquerda (avança)
           } else {
-            // Deslizou para a Direita -> Retorna o card
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+            slideTo(currentIndex - 1); // Deslizou pra Direita (recua)
           }
-          updateCarousel();
         }
-        
-        // Reseta o eixo X para o próximo movimento
         currentX = 0;
       });
     }
