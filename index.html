@@ -112,7 +112,7 @@
       position: relative; 
       z-index: 1; 
       max-width: 800px; 
-      width: 100%; /* Ajuste adicionado */
+      width: 100%; 
     }
     
     /* Configuração da Logo no Hero */
@@ -126,57 +126,11 @@
       opacity: 0;
       animation: fadeUp 0.8s 0.2s forwards;
       box-shadow: 0 10px 30px rgba(176,26,78,0.2);
-      will-change: transform; /* Ajuste adicionado */
-      backface-visibility: hidden; /* Ajuste adicionado */
-      -webkit-backface-visibility: hidden; /* Ajuste adicionado */
     }
 
     .hero-eyebrow { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
     .hero-title { font-family: var(--font-display); font-size: clamp(4.5rem, 14vw, 10rem); font-weight: 900; line-height: 0.9; color: var(--white); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; text-shadow: 0 0 80px rgba(176,26,78,0.4); }
     
-    /* Kinetic Text */
-    .kinetic-title {
-      display: flex;
-      flex-wrap: nowrap;
-      white-space: nowrap;
-      justify-content: center;
-      align-items: center; /* Alinha no centro vertical */
-      width: 100%;
-      max-width: 100%;
-      height: 1.2em; /* TRAVA A ALTURA AQUI PARA NÃO TREMER A TELA */
-      --text-stroke-width: calc(1em * 125 / 6000);
-      --hover-padding: calc(1em / 16);
-      contain: layout; /* Ajuste adicionado */
-    }
-    .kinetic-letter {
-      display: inline-block;
-      font-weight: 700;
-      will-change: font-weight, -webkit-text-stroke-width, padding;
-      -webkit-text-stroke-color: transparent;
-      -webkit-text-stroke-width: var(--text-stroke-width);
-      transition: font-weight 0.4s, -webkit-text-stroke-color 0.4s, padding 0.4s;
-    }
-    .kinetic-letter:hover {
-      padding-inline: var(--hover-padding);
-      font-weight: 900;
-      -webkit-text-stroke-color: currentColor;
-      -webkit-text-stroke-width: calc(var(--text-stroke-width) * 2);
-    }
-    .kinetic-letter:hover + .kinetic-letter {
-      padding-inline: var(--hover-padding);
-      font-weight: 850;
-    }
-    .kinetic-letter:hover + .kinetic-letter + .kinetic-letter {
-      font-weight: 780;
-    }
-    .kinetic-letter:has(+ .kinetic-letter:hover) {
-      padding-inline: var(--hover-padding);
-      font-weight: 850;
-    }
-    .kinetic-letter:has(+ .kinetic-letter + .kinetic-letter:hover) {
-      font-weight: 780;
-    }
-
     .hero-tagline { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.4rem); color: var(--gold); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; letter-spacing: 0.05em; }
     .hero-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
     
@@ -188,58 +142,93 @@
     .sobre-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(176,26,78,0.2); border: 1px solid rgba(176,26,78,0.4); border-radius: 50px; padding: 0.4rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold-lite); margin-bottom: 1.5rem; }
 
     /* ============================================================
-       CSS - CARROSSEL SCROLL (GALERIA)
+       CSS - CARROSSEL GALERIA ACETERNITY UI STYLE
     ============================================================ */
     #galeria { padding-top: 4rem; position: relative; }
-    .scroll-mestre {
-      height: 400vh;
+    .carousel-wrapper {
       position: relative;
       width: 100%;
-    }
-    .container-fixo {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      max-width: 1400px;
+      margin: 0 auto;
       overflow: hidden;
-      display: flex;
-      align-items: center;
+      padding: 2rem 0;
+    }
+    .carousel-container {
+      overflow: hidden; 
       width: 100%;
     }
-    .trilha-horizontal {
+    .carousel-track {
       display: flex;
-      gap: 30px;
-      padding: 0 5vw;
+      position: relative;
+      gap: 20px;
       width: max-content;
-      will-change: transform;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 2rem 5vw; 
+      align-items: center;
     }
-    
-    .item-scroll {
-      flex: 0 0 70vw; 
-      height: 45vh;   
+    .carousel-item {
+      flex: 0 0 75vw;
+      height: 45vh;
       border-radius: 20px;
       overflow: hidden;
       background: linear-gradient(145deg, rgba(145,18,62,0.25), rgba(74,0,26,0.4));
       border: 1px solid rgba(212,160,160,0.12);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 0.4;
+      transform: scale(0.85);
+      cursor: pointer;
     }
     @media (min-width: 900px) {
-      .item-scroll {
-        flex: 0 0 35vw; 
-        height: 55vh;   
-        gap: 50px;
+      .carousel-item {
+        flex: 0 0 35vw;
+        height: 55vh;
+        gap: 30px;
       }
     }
-    
-    .item-scroll img {
+    .carousel-item.active {
+      opacity: 1;
+      transform: scale(1);
+      border-color: rgba(212,160,160,0.4);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    .carousel-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(0.95) brightness(0.95);
-      transition: filter 0.4s;
+      transition: transform 0.6s ease;
     }
-    .item-scroll:hover img {
-      filter: saturate(1.1) brightness(1);
+    .carousel-item.active:hover img {
+      transform: scale(1.05);
     }
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .carousel-btn {
+      background: rgba(145,18,62,0.3);
+      border: 1px solid rgba(212,160,160,0.3);
+      color: var(--gold);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .carousel-btn:hover {
+      background: var(--cta);
+      color: var(--white);
+      transform: scale(1.1);
+      border-color: var(--cta);
+      box-shadow: 0 8px 24px rgba(176,26,78,0.4);
+    }
+    .carousel-btn svg { width: 24px; height: 24px; }
 
     #formatos { padding: 5rem 0; }
     .formatos-img-wrap { margin-top: 3rem; display: flex; justify-content: center; }
@@ -273,12 +262,12 @@
 
     #pagamentos { padding: 8rem 0; background: linear-gradient(180deg, rgba(145,18,62,0.15), transparent); }
     #pagamentos::before { content: ''; display: block; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,160,160,0.3), transparent); margin-bottom: 8rem; margin-top: -8rem; }
-    .agendamento-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-top: 3rem; max-width: 700px; margin-inline: auto; perspective: 1600px; }
+    .agendamento-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-top: 3rem; max-width: 700px; margin-inline: auto;}
     
     /* ============================================================
-       COMET CARD (ACETERNITY UI) - PAGAMENTOS
+       CARD - PAGAMENTOS
     ============================================================ */
-    .comet-card-container { perspective: 1200px; transform-style: preserve-3d; will-change: transform; width: 100%; max-width: 700px; margin: 0 auto; }
+    .comet-card-container { width: 100%; max-width: 700px; margin: 0 auto; }
     .comet-card {
       position: relative;
       background: linear-gradient(145deg, rgba(145,18,62,0.2), rgba(74,0,26,0.5));
@@ -286,9 +275,7 @@
       border-radius: 12px;
       padding: 2.5rem;
       text-align: center;
-      transform-style: preserve-3d;
-      will-change: transform;
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s, box-shadow 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     .comet-card:hover {
@@ -296,32 +283,10 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     }
     
-    .comet-glare {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      pointer-events: none;
-      background: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,160,160,0.2) 0%, transparent 100%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      z-index: 1;
-    }
-    .comet-card:hover .comet-glare { opacity: 1; }
-    
     .comet-card-content {
       position: relative;
       z-index: 2;
-      transform-style: preserve-3d;
     }
-    .comet-card-content > * {
-      will-change: transform;
-      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    /* Elementos saltando em 3D no hover */
-    .comet-card:hover .comet-card-content .agenda-icon { transform: translateZ(50px); }
-    .comet-card:hover .comet-card-content h3 { transform: translateZ(40px); }
-    .comet-card:hover .comet-card-content .pagamento-chips { transform: translateZ(30px); }
-    .comet-card:hover .comet-card-content p { transform: translateZ(20px); }
 
     .agenda-icon { width: 2.2rem; height: 2.2rem; margin: 0 auto 1rem; display: block; color: var(--gold); }
     .comet-card-content h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); margin-bottom: 1rem; }
@@ -333,11 +298,6 @@
     .pagamento-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1rem; }
     .chip { display: inline-flex; align-items: center; gap: 0.45rem; background: rgba(145,18,62,0.35); border: 1px solid rgba(212,160,160,0.2); border-radius: 50px; padding: 0.35rem 1rem; font-family: var(--font-ui); font-size: 0.78rem; color: var(--gold-lite); letter-spacing: 0.05em; }
     .chip-icon { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--gold); }
-
-    /* Respeita quem prefere menos movimento na tela */
-    @media (prefers-reduced-motion: reduce) {
-      .comet-card, .comet-card-content > * { transform: none !important; transition: none !important; }
-    }
 
     #contato { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
     #contato::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(176,26,78,0.2), transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
@@ -357,6 +317,11 @@
     .footer-logo { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 1rem; }
     .footer-logo span { color: var(--gold); }
     .footer-tagline { font-family: var(--font-display); font-style: italic; font-size: 1rem; color: var(--text-muted); }
+    
+    .footer-social-link { display: inline-block; margin-top: 1.2rem; color: var(--gold-lite); transition: var(--transition); }
+    .footer-social-link:hover { color: var(--white); transform: translateY(-2px); }
+    .footer-social-link svg { width: 28px; height: 28px; }
+    
     .footer-col h4 { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
     .footer-col ul a { font-family: var(--font-ui); font-size: 0.88rem; color: var(--text-muted); transition: color 0.3s; }
@@ -396,7 +361,7 @@
     ============================================================ */
     #policy-page {
       display: none;
-      background-color: #FFD1DC; /* Rosa bebê */
+      background-color: #FFD1DC; 
       min-height: 100vh;
       color: #4A001A;
       font-family: var(--font-body);
@@ -642,7 +607,8 @@
         <!-- Logo atualizada para .png -->
         <img src="./assets/LogoSwagNails.png" alt="Logo SwagNails" class="hero-logo">
         <p class="hero-eyebrow">✦ Nail Designer ✦</p>
-        <h1 class="hero-title kinetic-title" data-kinetic-text="SwagNails"></h1>
+        <!-- Titulo estatico substituido aqui -->
+        <h1 class="hero-title">SwagNails</h1>
         <p class="hero-tagline">Seja Autêntica.</p>
         <div class="hero-cta-group">
           <a href="#agendar" class="btn btn-primary">
@@ -674,30 +640,24 @@
         <p class="section-label reveal">Portfólio</p>
         <h2 class="section-title reveal">Trabalhos <em>recentes</em></h2>
       </div>
-      <div class="scroll-mestre" id="area-scroll">
-        <div class="container-fixo">
-          <div class="trilha-horizontal" id="trilha">
-            
-            <div class="item-scroll">
-              <img src="./assets/AltNails1.jpeg" alt="Trabalho SwagNails 1">
-            </div>
-            <div class="item-scroll">
-              <img src="./assets/AltNails2.jpeg" alt="Trabalho SwagNails 2">
-            </div>
-            <div class="item-scroll">
-              <img src="./assets/AltNails3.jpeg" alt="Trabalho SwagNails 3">
-            </div>
-            <div class="item-scroll">
-              <img src="./assets/AltNails4.jpeg" alt="Trabalho SwagNails 4">
-            </div>
-            <div class="item-scroll">
-              <img src="./assets/AltNails5.jpeg" alt="Trabalho SwagNails 5">
-            </div>
-            <div class="item-scroll">
-              <img src="./assets/AltNails6.jpeg" alt="Trabalho SwagNails 6">
-            </div>
-    
+      <div class="carousel-wrapper reveal">
+        <div class="carousel-container" id="carouselContainer">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-item" onclick="setCarouselIndex(0)"><img src="./assets/AltNails1.jpeg" alt="Trabalho SwagNails 1"></div>
+            <div class="carousel-item" onclick="setCarouselIndex(1)"><img src="./assets/AltNails2.jpeg" alt="Trabalho SwagNails 2"></div>
+            <div class="carousel-item" onclick="setCarouselIndex(2)"><img src="./assets/AltNails3.jpeg" alt="Trabalho SwagNails 3"></div>
+            <div class="carousel-item" onclick="setCarouselIndex(3)"><img src="./assets/AltNails4.jpeg" alt="Trabalho SwagNails 4"></div>
+            <div class="carousel-item" onclick="setCarouselIndex(4)"><img src="./assets/AltNails5.jpeg" alt="Trabalho SwagNails 5"></div>
+            <div class="carousel-item" onclick="setCarouselIndex(5)"><img src="./assets/AltNails6.jpeg" alt="Trabalho SwagNails 6"></div>
           </div>
+        </div>
+        <div class="carousel-controls">
+          <button id="prevBtn" class="carousel-btn" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button id="nextBtn" class="carousel-btn" aria-label="Próximo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -706,8 +666,8 @@
       <div class="container">
         <div class="agendamento-grid">
           <div class="comet-card-container reveal">
+            <!-- Card Sem animações e sem glare -->
             <div class="comet-card" id="cometCard">
-              <div class="comet-glare" id="cometGlare"></div>
               <div class="comet-card-content">
                 <svg class="agenda-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path>
@@ -759,6 +719,12 @@
           <div>
             <div class="footer-logo">Swag<span>Nails</span></div>
             <p class="footer-tagline">Seja Autêntica. ✨</p>
+            <!-- Inclusão do link pro Instagram -->
+            <a href="https://www.instagram.com/swagnails.sc" target="_blank" rel="noopener" aria-label="Siga-nos no Instagram" class="footer-social-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </a>
           </div>
           <div class="footer-col">
             <h4>Navegação</h4>
@@ -839,54 +805,6 @@
   </div>
 
   <script>
-    var kineticTitles = document.querySelectorAll('[data-kinetic-text]');
-    kineticTitles.forEach(function (el) {
-      var text = el.getAttribute('data-kinetic-text');
-      el.setAttribute('aria-label', text);
-      el.innerHTML = text.split('').map(function (letter) {
-        var char = letter === ' ' ? '&nbsp;' : letter;
-        return '<span class="kinetic-letter" aria-hidden="true">' + char + '</span>';
-      }).join('');
-    });
-
-    function fitKineticTitle(el) {
-      var viewportWidth = document.documentElement.clientWidth || window.innerWidth;
-      if (!viewportWidth) return;
-
-      var probeSize = 100;
-      el.style.fontSize = probeSize + 'px';
-      var naturalWidth = el.scrollWidth;
-      if (!naturalWidth) return;
-
-      var margemLateral = 0.90;  
-      var reservaParaHover = 0.93; 
-      var availableWidth = viewportWidth * margemLateral * reservaParaHover;
-      var newSize = probeSize * (availableWidth / naturalWidth);
-
-      var minSize = 72;  
-      var maxSize = 160; 
-      newSize = Math.max(minSize, Math.min(maxSize, newSize));
-
-      el.style.fontSize = newSize + 'px';
-    }
-
-    function fitAllKineticTitles() {
-      kineticTitles.forEach(fitKineticTitle);
-    }
-
-    fitAllKineticTitles();
-    window.addEventListener('resize', fitAllKineticTitles);
-    window.addEventListener('orientationchange', fitAllKineticTitles);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(fitAllKineticTitles); 
-    }
-    if (window.ResizeObserver) {
-      var kineticResizeObserver = new ResizeObserver(fitAllKineticTitles);
-      kineticTitles.forEach(function (el) {
-        if (el.parentElement) kineticResizeObserver.observe(el.parentElement);
-      });
-    }
-
     document.getElementById('policy-checkbox').addEventListener('change', function() {
       const btn = document.getElementById('btn-ir-agenda');
       if(this.checked) {
@@ -942,67 +860,49 @@
     }, { threshold: 0.12 });
     reveals.forEach(el => observer.observe(el));
     
-    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var cometContainer = document.querySelector('.comet-card-container');
-    var cometCard = document.getElementById('cometCard');
-    var cometGlare = document.getElementById('cometGlare');
+    // Lógica do Carrossel de Imagens (Aceternity UI Style)
+    const track = document.getElementById('carouselTrack');
+    const items = Array.from(document.querySelectorAll('.carousel-item'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
 
-    if (cometContainer && cometCard && !prefersReducedMotion) {
-      cometContainer.addEventListener('mousemove', function(e) {
-        var rect = cometContainer.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-
-        var centerX = rect.width / 2;
-        var centerY = rect.height / 2;
-
-        var rotateX = ((y - centerY) / centerY) * -17.5; 
-        var rotateY = ((x - centerX) / centerX) * 17.5;
-
-        cometCard.style.transition = 'transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        cometCard.style.transform = 'rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
-        
-        if (cometGlare) {
-          cometGlare.style.setProperty('--mouse-x', x + 'px');
-          cometGlare.style.setProperty('--mouse-y', y + 'px');
+    function updateCarousel() {
+      if (!track || items.length === 0) return;
+      
+      items.forEach((item, index) => {
+        item.classList.remove('active');
+        if (index === currentIndex) {
+          item.classList.add('active');
         }
       });
 
-      cometContainer.addEventListener('mouseleave', function() {
-        cometCard.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        cometCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        if (cometGlare) {
-          cometGlare.style.setProperty('--mouse-x', '50%');
-          cometGlare.style.setProperty('--mouse-y', '50%');
-        }
-      });
+      const activeItem = items[currentIndex];
+      const containerWidth = track.parentElement.offsetWidth;
+      // Calcula o centro baseado na largura total e offset do item
+      const itemCenter = activeItem.offsetLeft + (activeItem.offsetWidth / 2);
+      const transformX = (containerWidth / 2) - itemCenter;
+
+      track.style.transform = `translateX(${transformX}px)`;
+    }
+    
+    function setCarouselIndex(index) {
+        currentIndex = index;
+        updateCarousel();
     }
 
-    const areaScroll = document.getElementById('area-scroll');
-    const trilha = document.getElementById('trilha');
-    let posicaoAtual = 0;
-    let posicaoAlvo = 0;
-
-    function animarSuavemente() {
-      if(!areaScroll || !trilha) return;
-      posicaoAtual += (posicaoAlvo - posicaoAtual) * 0.08;
-      trilha.style.transform = `translateX(-${posicaoAtual}px)`;
-      requestAnimationFrame(animarSuavemente);
-    }
-
-    if(areaScroll && trilha) {
-      window.addEventListener('scroll', () => {
-        const topoArea = areaScroll.getBoundingClientRect().top;
-        const alturaRolagem = areaScroll.offsetHeight - window.innerHeight;
-        
-        let progresso = (topoArea * -1) / alturaRolagem;
-        if (progresso < 0) progresso = 0;
-        if (progresso > 1) progresso = 1;
-
-        const maxDeslocamento = trilha.scrollWidth - window.innerWidth + (window.innerWidth * 0.1); 
-        posicaoAlvo = progresso * maxDeslocamento; 
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+        updateCarousel();
       });
-      animarSuavemente();
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+      });
+      window.addEventListener('resize', updateCarousel);
+      // Timeout inicial para garantir que o estilo carregou antes do cálculo do tamanho da tela
+      setTimeout(updateCarousel, 150); 
     }
   </script>
 </body>
