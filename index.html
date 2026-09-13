@@ -150,7 +150,6 @@
       max-width: 1400px;
       margin: 0 auto;
       overflow: hidden;
-      /* Padding inferior estendido para dar distância aos botões e borda da seção */
       padding: 2rem 0 4rem 0;
     }
     .carousel-container {
@@ -162,9 +161,9 @@
       position: relative;
       gap: 20px;
       width: max-content;
-      /* O transform agora é dinâmico (com/sem transição via JS) para o loop perfeito */
       padding: 2rem 5vw 4rem 5vw; 
       align-items: center;
+      will-change: transform; /* Otimização para rolagem fluida */
     }
     .carousel-item {
       flex: 0 0 75vw;
@@ -207,7 +206,6 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
-      /* Margem superior ajustada para centralizar o espaço perfeitamente */
       margin-top: 1.5rem; 
     }
     .carousel-btn {
@@ -365,7 +363,6 @@
     @media (max-width: 600px) {
       .formatos-grid { grid-template-columns: repeat(2, 1fr); }
       .hero-cta-group { flex-direction: column; align-items: center; }
-      #main-site .btn { width: 100%; justify-content: center; }
       .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
       .wpp-float { width: 54px; height: 54px; bottom: 1.5rem; right: 1.5rem; }
     }
@@ -872,35 +869,31 @@
     reveals.forEach(el => observer.observe(el));
     
     // ==========================================
-    // LÓGICA DO CARROSSEL DE IMAGENS INFINITO (SWIPE INCLUSO)
+    // LÓGICA DO CARROSSEL DE IMAGENS INFINITO (SWIPE EM TEMPO REAL)
     // ==========================================
     const track = document.getElementById('carouselTrack');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    let currentTranslateX = 0; // Armazena a posição exata da tela
     
     if (track) {
       const originalItems = Array.from(document.querySelectorAll('.carousel-item'));
       const numOriginals = originalItems.length;
       
-      // Número de itens clonados em cada lado (2 garante segurança na visão pra celular e desktop)
       const clonesCount = 2;
       
-      // 1. Clona os últimos itens e insere no Início
       for (let i = numOriginals - clonesCount; i < numOriginals; i++) {
         let clone = originalItems[i].cloneNode(true);
         track.insertBefore(clone, track.firstChild);
       }
       
-      // 2. Clona os primeiros itens e insere no Final
       for (let i = 0; i < clonesCount; i++) {
         let clone = originalItems[i].cloneNode(true);
         track.appendChild(clone);
       }
       
-      // Todos os itens reais e clonados juntos
       const allItems = Array.from(document.querySelectorAll('.carousel-item'));
       
-      // O índice inicial verdadeiro agora se desloca pelo número de clones inseridos na frente
       let currentIndex = clonesCount;
       let isAnimating = false;
 
@@ -922,7 +915,8 @@
         const containerWidth = track.parentElement.offsetWidth;
         const itemCenter = activeItem.offsetLeft + (activeItem.offsetWidth / 2);
         const transformX = (containerWidth / 2) - itemCenter;
-
+        
+        currentTranslateX = transformX; // Salva o ponto exato da centralização
         track.style.transform = `translateX(${transformX}px)`;
       }
       
@@ -932,16 +926,13 @@
         updateCarousel();
         isAnimating = true;
         
-        // Timer baseado na duração do transition (0.6s)
         setTimeout(() => {
           isAnimating = false;
           
-          // Se chegou em um clone na extrema esquerda, reseta silenciosamente pro real
           if (currentIndex < clonesCount) {
             currentIndex = currentIndex + numOriginals;
-            updateCarousel(true); // 'true' desativa a transição do salto
+            updateCarousel(true); 
           } 
-          // Se chegou em um clone na extrema direita, reseta silenciosamente pro real
           else if (currentIndex >= numOriginals + clonesCount) {
             currentIndex = currentIndex - numOriginals;
             updateCarousel(true);
@@ -949,7 +940,6 @@
         }, 600); 
       }
 
-      // Adicionando clicks nas imagens para focalizar a que o usuário clicar
       allItems.forEach((item, index) => {
         item.addEventListener('click', () => {
           if (index !== currentIndex) slideTo(index);
@@ -960,34 +950,48 @@
         prevBtn.addEventListener('click', () => slideTo(currentIndex - 1));
         nextBtn.addEventListener('click', () => slideTo(currentIndex + 1));
         window.addEventListener('resize', () => updateCarousel(true));
-        
-        // Timeout para garantir que o CSS e fontes carregaram o tamanho exato da tela antes do cálculo matemático
         setTimeout(() => updateCarousel(true), 150); 
       }
 
-      // Lógica do Swipe Otimizada com prevenção de bug (ignora toque enquanto desliza)
+      // ==========================================
+      // LÓGICA DE SWIPE NATIVO (Acompanha o Dedo)
+      // ==========================================
       let startX = 0;
       let currentX = 0;
       let isDragging = false;
+      let baseTransform = 0;
 
       track.addEventListener('touchstart', (e) => {
         if (isAnimating) return; 
         startX = e.touches[0].clientX;
         isDragging = true;
+        baseTransform = currentTranslateX; 
+        
+        // Remove a transição para a imagem seguir o dedo sem delay
+        track.style.transition = 'none';
       }, { passive: true });
 
       track.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
         currentX = e.touches[0].clientX;
+        const diffX = currentX - startX;
+        
+        // Move o carrossel na mesma medida em que o dedo desliza
+        track.style.transform = `translateX(${baseTransform + diffX}px)`;
       }, { passive: true });
 
       track.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
         
-        if (currentX === 0) return;
+        // Se foi apenas um toque sem arrastar
+        if (currentX === 0) {
+          track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+          track.style.transform = `translateX(${currentTranslateX}px)`;
+          return;
+        }
 
-        const diffX = startX - currentX;
+        const diffX = startX - currentX; 
         const limiteSwipe = 40; 
 
         if (Math.abs(diffX) > limiteSwipe) {
@@ -996,6 +1000,9 @@
           } else {
             slideTo(currentIndex - 1); // Deslizou pra Direita (recua)
           }
+        } else {
+          // Não arrastou o suficiente para passar a foto, volta pro lugar original
+          updateCarousel(); 
         }
         currentX = 0;
       });
