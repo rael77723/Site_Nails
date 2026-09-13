@@ -115,7 +115,6 @@
       width: 100%; 
     }
     
-    /* Configuração da Logo no Hero */
     .hero-logo {
       width: 90px;
       height: 90px;
@@ -151,7 +150,7 @@
       max-width: 1400px;
       margin: 0 auto;
       overflow: hidden;
-      padding: 2rem 0;
+      padding: 2rem 0 0 0;
     }
     .carousel-container {
       overflow: hidden; 
@@ -163,7 +162,7 @@
       gap: 20px;
       width: max-content;
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-      padding: 2rem 5vw; 
+      padding: 2rem 5vw 5rem 5vw; /* Aumentado padding bottom para não cortar a sombra */
       align-items: center;
     }
     .carousel-item {
@@ -190,7 +189,7 @@
       opacity: 1;
       transform: scale(1);
       border-color: rgba(212,160,160,0.4);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4); /* Sombra que precisa de espaço inferior */
       z-index: 2;
     }
     .carousel-item img {
@@ -198,6 +197,7 @@
       height: 100%;
       object-fit: cover;
       transition: transform 0.6s ease;
+      pointer-events: none; /* Evita bug de clique ao arrastar no celular */
     }
     .carousel-item.active:hover img {
       transform: scale(1.05);
@@ -206,7 +206,7 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
-      margin-top: 2rem;
+      margin-top: 0.5rem;
     }
     .carousel-btn {
       background: rgba(145,18,62,0.3);
@@ -220,15 +220,29 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .carousel-btn:hover {
+    
+    /* Efeito de hover restrito apenas para mouse */
+    @media (hover: hover) {
+      .carousel-btn:hover {
+        background: var(--cta);
+        color: var(--white);
+        transform: scale(1.1);
+        border-color: var(--cta);
+        box-shadow: 0 8px 24px rgba(176,26,78,0.4);
+      }
+    }
+    
+    /* Efeito de clique rápido e fluido para celular/mouse */
+    .carousel-btn:active {
       background: var(--cta);
       color: var(--white);
-      transform: scale(1.1);
+      transform: scale(0.95);
       border-color: var(--cta);
-      box-shadow: 0 8px 24px rgba(176,26,78,0.4);
     }
-    .carousel-btn svg { width: 24px; height: 24px; }
+    
+    .carousel-btn svg { width: 24px; height: 24px; pointer-events: none; }
 
     #formatos { padding: 5rem 0; }
     .formatos-img-wrap { margin-top: 3rem; display: flex; justify-content: center; }
@@ -604,10 +618,8 @@
       <div class="hero-ring"></div>
 
       <div class="hero-content">
-        <!-- Logo atualizada para .png -->
         <img src="./assets/LogoSwagNails.png" alt="Logo SwagNails" class="hero-logo">
         <p class="hero-eyebrow">✦ Nail Designer ✦</p>
-        <!-- Titulo estatico substituido aqui -->
         <h1 class="hero-title">SwagNails</h1>
         <p class="hero-tagline">Seja Autêntica.</p>
         <div class="hero-cta-group">
@@ -666,7 +678,6 @@
       <div class="container">
         <div class="agendamento-grid">
           <div class="comet-card-container reveal">
-            <!-- Card Sem animações e sem glare -->
             <div class="comet-card" id="cometCard">
               <div class="comet-card-content">
                 <svg class="agenda-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -719,7 +730,6 @@
           <div>
             <div class="footer-logo">Swag<span>Nails</span></div>
             <p class="footer-tagline">Seja Autêntica. ✨</p>
-            <!-- Inclusão do link pro Instagram -->
             <a href="https://www.instagram.com/swagnails.sc" target="_blank" rel="noopener" aria-label="Siga-nos no Instagram" class="footer-social-link">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
@@ -860,7 +870,9 @@
     }, { threshold: 0.12 });
     reveals.forEach(el => observer.observe(el));
     
-    // Lógica do Carrossel de Imagens (Aceternity UI Style)
+    // ==========================================
+    // LÓGICA DO CARROSSEL DE IMAGENS (SWIPE INCLUSO)
+    // ==========================================
     const track = document.getElementById('carouselTrack');
     const items = Array.from(document.querySelectorAll('.carousel-item'));
     const prevBtn = document.getElementById('prevBtn');
@@ -901,8 +913,53 @@
         updateCarousel();
       });
       window.addEventListener('resize', updateCarousel);
-      // Timeout inicial para garantir que o estilo carregou antes do cálculo do tamanho da tela
+      // Timeout inicial para garantir que o estilo carregou antes do cálculo
       setTimeout(updateCarousel, 150); 
+    }
+
+    // Variáveis de controle para o Touch/Swipe
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    if (track) {
+      // Quando o usuário toca na tela
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      }, { passive: true });
+
+      // Durante o arrasto do dedo na tela
+      track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+      }, { passive: true });
+
+      // Quando o usuário tira o dedo da tela
+      track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        // Se currentX for zero, foi só um toque curto (tap), não executa swipe
+        if (currentX === 0) return;
+
+        const diffX = startX - currentX;
+        const limiteSwipe = 40; // Quantidade de pixels mínima para validar a passada de imagem
+
+        if (Math.abs(diffX) > limiteSwipe) {
+          if (diffX > 0) {
+            // Deslizou para a Esquerda -> Avança o card
+            currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+          } else {
+            // Deslizou para a Direita -> Retorna o card
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+          }
+          updateCarousel();
+        }
+        
+        // Reseta o eixo X para o próximo movimento
+        currentX = 0;
+      });
     }
   </script>
 </body>
